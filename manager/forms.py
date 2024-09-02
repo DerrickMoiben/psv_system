@@ -1,4 +1,4 @@
-from models import Route, Stage, Car
+from . models import Route, Stage, Car
 from django import forms
 
 
@@ -14,4 +14,4 @@ class ManagerLoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)
 
-    
+
