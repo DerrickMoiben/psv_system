@@ -1,0 +1,23 @@
+{
+  "name": "psv_system-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derrickkimtai/psv_system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/derrickkimtai/psv_system/issues"
+  },
+  "homepage": "https://github.com/derrickkimtai/psv_system#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}
