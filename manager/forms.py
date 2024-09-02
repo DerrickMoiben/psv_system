@@ -1,13 +1,12 @@
 from . models import Route, Stage, Car
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
-
-class ManagerSingupForm(forms.Form):
-    username = forms.CharField(max_length=100)
-    fullname = forms.CharField(max_length=100)
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput)
+class ManagerSingupForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
 
 
 class ManagerLoginForm(forms.Form):

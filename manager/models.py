@@ -1,7 +1,6 @@
 from django.db import models
 
-# Create your models here.
-
+# Create your models here.    
 class Route(models.Model):
     route_id = models.AutoField(primary_key=True)
     route_name = models.CharField(max_length=50)
