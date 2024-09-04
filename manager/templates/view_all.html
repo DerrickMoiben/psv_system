@@ -39,6 +39,7 @@
         <th>stage name</th>
         <th>location</th>
         <th>Action</th>
+        <th>Update</th>
         {% for stage in stages %}
         <tr>
             <td>{{ stage.stage_name }}</td>
@@ -47,6 +48,12 @@
                 <form action="{% url 'delete_stage' stage.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit" onclick="return confirm ('are you sure you want to delete this stage ')">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form action="{% url 'update_stage' stage.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Update</button>
                 </form>
             </td>
         </tr>

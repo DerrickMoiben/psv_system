@@ -166,3 +166,18 @@ def update_route(request, route_id):
     else:
         form = RouteForm(instance=route)
     return render(request, 'update_route.html', {'form': form, 'route': route})
+
+def update_stage(request, id):
+    stage = get_object_or_404(Stage, id=id)
+    if request.method == 'POST':
+        form = StageForm(request.POST, instance=stage)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'You have successfully updated the stage')
+            return redirect(view_all)
+        else:
+            messages.error(request, 'An error occured while trying to update the stage')
+            print(form.errors)
+    else:
+        form = StageForm(instance=stage)
+    return render(request, 'update_stage.html', {'form': form, 'stage': stage})   
