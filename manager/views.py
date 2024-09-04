@@ -106,3 +106,32 @@ def view_all(request):
     routes = Route.objects.all()
     stages = Stage.objects.all()
     return render(request, 'view_all.html', {'cars': cars, 'routes': routes, 'stages': stages})
+
+
+def delete_car(request, id):
+    try:
+        cars = Car.objects.get(id=id)
+        cars.delete()
+        messages.success(request, 'You have successuly deleted the car')
+    except Car.DoesNotExist:
+        messages.error(request, 'The car does not exist')
+    return redirect(view_all)
+
+
+def delete_route(request, route_id):
+    try:
+        routes = Route.objects.get(route_id=route_id)
+        routes.delete()
+        messages.success(request, 'You have successuly deleted the route')
+    except Route.DoesNotExist:
+        messages.error(request, 'The route does not exist')
+    return redirect(view_all)
+
+def delete_stage(request, id):
+    try:
+        stages = Stage.objects.get(id=id)
+        stages.delete()
+        messages.success(request, 'You have successuly deleted the stage')
+    except Stage.DoesNotExist:
+        messages.error(request, 'The stage does not exist')
+    return redirect(view_all)

@@ -9,10 +9,20 @@
     <table>
         <th>car palte</th>
         <th>seating capacity</th>
+        <th>Route</th>
+        <td>Action</td>
+
         {% for car in cars %}
         <tr>
             <td>{{ car.car_plate }}</td>
             <td>{{ car.seating_capacity }}</td>
+            <td>{{ car.route_name }}</td>
+            <td>
+                <form action="{% url 'delete_car' car.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm ('are you sure you want to delete this car ')">Delete</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
 
@@ -22,10 +32,17 @@
     <table>
         <th>stage name</th>
         <th>location</th>
+        <th>Action</th>
         {% for stage in stages %}
         <tr>
             <td>{{ stage.stage_name }}</td>
             <td>{{ stage.stage_location }}</td>
+            <td>
+                <form action="{% url 'delete_stage' stage.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm ('are you sure you want to delete this stage ')">Delete</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -35,11 +52,18 @@
         <th>route name</th>
         <th>Price</th>
         <th>Distance</th>
+        <th>Actions</th>
         {% for route in routes %}
         <tr>
             <td>{{ route.route_name }}</td>
             <td>{{ route.route_price }}</td>
             <td>{{ route.route_distance }}</td>
+            <td>
+                <form action="{% url 'delete_route' route.route_id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm ('are you sure you want to delete this route ')">Delete</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
 

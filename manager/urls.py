@@ -9,4 +9,7 @@ urlpatterns = [
     path("manage_stage/", views.manage_stage, name="manage_stage"),
     path("add_car/", views.add_car, name="add_car"),
     path("view_all/", views.view_all, name="view_all"),
+    path("delete_car/<int:id>/", views.delete_car, name="delete_car"),
+    path("delete_route/<int:route_id>/", views.delete_route, name="delete_route"),
+    path("delete_stage/<int:id>/", views.delete_stage, name="delete_stage"),
 ]
