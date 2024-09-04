@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage all</title>
+</head>
+<body>
+    <table>
+        <th>car palte</th>
+        <th>seating capacity</th>
+        {% for car in cars %}
+        <tr>
+            <td>{{ car.car_plate }}</td>
+            <td>{{ car.seating_capacity }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+    <br>
+    <br>
+    <table>
+        <th>stage name</th>
+        <th>location</th>
+        {% for stage in stages %}
+        <tr>
+            <td>{{ stage.stage_name }}</td>
+            <td>{{ stage.stage_location }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <br>
+    <table>
+        <th>route name</th>
+        <th>Price</th>
+        <th>Distance</th>
+        {% for route in routes %}
+        <tr>
+            <td>{{ route.route_name }}</td>
+            <td>{{ route.route_price }}</td>
+            <td>{{ route.route_distance }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+    <a href="{% url 'manager_dashboard' %}">Back</a>
+</body>
+</html>

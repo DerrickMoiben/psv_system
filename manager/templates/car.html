@@ -10,6 +10,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Add car</button>
+        <a href="{% url 'manager_dashboard' %}">Back</a>
     </form>
 </body>
 </html>

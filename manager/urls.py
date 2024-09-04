@@ -8,4 +8,5 @@ urlpatterns = [
     path("manage_route/", views.manage_route, name="manage_route"),
     path("manage_stage/", views.manage_stage, name="manage_stage"),
     path("add_car/", views.add_car, name="add_car"),
+    path("view_all/", views.view_all, name="view_all"),
 ]

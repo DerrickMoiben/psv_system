@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
-
+from .models import Route, Stage, Car
 
 
 
@@ -65,7 +65,7 @@ def manage_route(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Route added successfully')
-            return redirect('manage_route')
+            return redirect('view_all')
         else:
             messages.error(request, 'An error occurred during registration' )
             print(form.errors)
@@ -75,11 +75,11 @@ def manage_route(request):
 
 def manage_stage(request):
     if request.method == 'POST':
-        form = StageForm(request.post)
+        form = StageForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Stage has been added sucessfully')
-            return redirect('manage_stage')
+            return redirect('view_all')
         else:
             messages.error(request, 'An error occured while tyring to addd a new stage')
             print(form.errors)
@@ -93,10 +93,16 @@ def add_car(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Car was added sucessfuyy to the sytem')
-            return redirect('add_car')
+            return redirect('view_all')
         else:
             messages.error(request, 'An error occured while tyring to addd a new car')
             print(form.errors)
     else:
         form = CarForm()
         return render(request, 'car.html', {'form': form})
+    
+def view_all(request):
+    cars = Car.objects.all()
+    routes = Route.objects.all()
+    stages = Stage.objects.all()
+    return render(request, 'view_all.html', {'cars': cars, 'routes': routes, 'stages': stages})

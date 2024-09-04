@@ -26,5 +26,5 @@ class StageForm(forms.ModelForm):
 class CarForm(forms.ModelForm):
     class Meta:
         model = Car
-        fields = ['car_plate', 'seating_capacity']
+        fields = ['car_plate', 'seating_capacity', 'route_name']
 
