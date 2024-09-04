@@ -1,5 +1,5 @@
 # This file contains the views for the manager app  
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from .forms import ManagerLoginForm, ManagerSingupForm, RouteForm, StageForm, CarForm
 from django.contrib.auth.models import User
@@ -135,3 +135,34 @@ def delete_stage(request, id):
     except Stage.DoesNotExist:
         messages.error(request, 'The stage does not exist')
     return redirect(view_all)
+
+def update_car(request, id):
+    cars = get_object_or_404(Car, id=id)
+    if request.method == 'POST':
+        form = CarForm(request.POST, instance=cars)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Car updated successfully')
+            return redirect('view_all')
+        else:
+            messages.error(request, 'An error occured while tyring to update the car')
+            # print(form.errors)
+    else:
+        form = CarForm(instance=cars)
+    return render(request, 'update_car.html', {'form': form, 'cars': cars})
+
+
+def update_route(request, route_id):
+    route = get_object_or_404(Route, route_id=route_id)
+    if request.method == 'POST':
+        form = RouteForm(request.POST, instance=route)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'You have sucessfutmy updated the route')
+            return redirect(view_all)
+        else:
+            messages.error(request, 'They was an error while trying to update the ')
+            print(form.errors)
+    else:
+        form = RouteForm(instance=route)
+    return render(request, 'update_route.html', {'form': form, 'route': route})

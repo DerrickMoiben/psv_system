@@ -12,4 +12,6 @@ urlpatterns = [
     path("delete_car/<int:id>/", views.delete_car, name="delete_car"),
     path("delete_route/<int:route_id>/", views.delete_route, name="delete_route"),
     path("delete_stage/<int:id>/", views.delete_stage, name="delete_stage"),
+    path("update_car/<int:id>/", views.update_car, name="update_car"),
+    path("update_route/<int:route_id>/", views.update_route, name="update_route"),
 ]

@@ -11,7 +11,7 @@
         <th>seating capacity</th>
         <th>Route</th>
         <td>Action</td>
-
+        <th>Update</th>
         {% for car in cars %}
         <tr>
             <td>{{ car.car_plate }}</td>
@@ -21,6 +21,12 @@
                 <form action="{% url 'delete_car' car.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit" onclick="return confirm ('are you sure you want to delete this car ')">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form action="{% url 'update_car' car.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Update</button>
                 </form>
             </td>
         </tr>
@@ -53,6 +59,8 @@
         <th>Price</th>
         <th>Distance</th>
         <th>Actions</th>
+        <th>Update</th>
+        
         {% for route in routes %}
         <tr>
             <td>{{ route.route_name }}</td>
@@ -62,6 +70,12 @@
                 <form action="{% url 'delete_route' route.route_id %}" method="post">
                     {% csrf_token %}
                     <button type="submit" onclick="return confirm ('are you sure you want to delete this route ')">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form action="{% url 'update_route' route.route_id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Update</button>
                 </form>
             </td>
         </tr>
