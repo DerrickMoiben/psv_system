@@ -1,24 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Car Information</title>
-</head>
-<body>
-    <h1>Update Car Information</h1>
-    <form method="post">
-        {% csrf_token %}  <!-- Use Django's CSRF token template tag -->
-        <label for="car_plate">Car Plate</label>
-        <input type="text" name="car_plate" value="{{ form.car_plate.value|default:'' }}">
-        <br>
-        <label for="seating_capacity">Seating Capacity</label>
-        <input type="text" name="seating_capacity" value="{{ form.seating_capacity.value|default:'' }}">
-        <br>
-        <label for="route_name">Route Name</label>
-        <input type="text" name="route_name" value="{{ form.route_name.value|default:'' }}">
-        <br>
-        <button type="submit">Update</button>
-    </form>
-</body>
-</html>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Car</button>
+</form>

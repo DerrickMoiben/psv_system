@@ -16,7 +16,7 @@ class ManagerLoginForm(forms.Form):
 class RouteForm(forms.ModelForm):
     class Meta:
         model = Route
-        fields = ['route_name', 'route_start', 'route_end', 'route_distance', 'route_price']
+        fields = ['route_name', 'route_start', 'route_end', 'route_distance', 'route_price', 'stage_name']
 
 class StageForm(forms.ModelForm):
     class Meta:

@@ -3,92 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage all</title>
+    <title>Manage All</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #007BFF; /* Blue theme color */
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        button {
+            background-color: #c7475c; /* Blue theme color */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #dd0404; /* Darker blue on hover */
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF; /* Blue theme color */
+            padding: 10px 15px;
+            border: 1px solid #007BFF; /* Blue theme color */
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #007BFF; /* Blue theme color */
+            color: white;
+        }
+        .message {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
 </head>
 <body>
-    <table>
-        <th>car palte</th>
-        <th>seating capacity</th>
-        <th>Route</th>
-        <td>Action</td>
-        <th>Update</th>
-        {% for car in cars %}
-        <tr>
-            <td>{{ car.car_plate }}</td>
-            <td>{{ car.seating_capacity }}</td>
-            <td>{{ car.route_name }}</td>
-            <td>
-                <form action="{% url 'delete_car' car.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" onclick="return confirm ('are you sure you want to delete this car ')">Delete</button>
-                </form>
-            </td>
-            <td>
-                <form action="{% url 'update_car' car.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Update</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
+    <h1>Manage Your Fleet</h1>
 
-    </table>
-    <br>
-    <br>
-    <table>
-        <th>stage name</th>
-        <th>location</th>
-        <th>Action</th>
-        <th>Update</th>
-        {% for stage in stages %}
-        <tr>
-            <td>{{ stage.stage_name }}</td>
-            <td>{{ stage.stage_location }}</td>
-            <td>
-                <form action="{% url 'delete_stage' stage.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" onclick="return confirm ('are you sure you want to delete this stage ')">Delete</button>
-                </form>
-            </td>
-            <td>
-                <form action="{% url 'update_stage' stage.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Update</button>
-                </form>
-            </td>
-        </tr>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
         {% endfor %}
-    </table>
-    <br>
-    <br>
-    <table>
-        <th>route name</th>
-        <th>Price</th>
-        <th>Distance</th>
-        <th>Actions</th>
-        <th>Update</th>
-        
-        {% for route in routes %}
-        <tr>
-            <td>{{ route.route_name }}</td>
-            <td>{{ route.route_price }}</td>
-            <td>{{ route.route_distance }}</td>
-            <td>
-                <form action="{% url 'delete_route' route.route_id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" onclick="return confirm ('are you sure you want to delete this route ')">Delete</button>
-                </form>
-            </td>
-            <td>
-                <form action="{% url 'update_route' route.route_id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Update</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
+    {% endif %}
 
+    <h2>Cars</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Car Plate</th>
+                <th>Seating Capacity</th>
+                <th>Route</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for car in cars %}
+            <tr>
+                <td>{{ car.car_plate }}</td>
+                <td>{{ car.seating_capacity }}</td>
+                <td>{{ car.route_name }}</td>
+                <td>
+                    <a href="{% url 'update_car' car.id %}">Update</a>
+                </td>
+                <td>
+                    <form action="{% url 'delete_car' car.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this car? {car.car_plate}')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-    <a href="{% url 'manager_dashboard' %}">Back</a>
+
+    <h2>Stages</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Stage Name</th>
+                <th>Location</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stage in stages %}
+            <tr>
+                <td>{{ stage.stage_name }}</td>
+                <td>{{ stage.stage_location }}</td>
+                <td>
+                    <a href="{% url 'update_stage' stage.id %}">Update</a>
+                </td>
+                <td>
+                    <form action="{% url 'delete_stage' stage.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this stage?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Routes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Route Name</th>
+                <th>Price</th>
+                <th>Distance</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for route in routes %}
+            <tr>
+                <td>{{ route.route_name }}</td>
+                <td>{{ route.route_price }}</td>
+                <td>{{ route.route_distance }}</td>
+                <td>
+                    <a href="{% url 'update_route' route.route_id %}">Update</a>
+                </td>
+                <td>
+                    <form action="{% url 'delete_route' route.route_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this route?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'manager_dashboard' %}">Back to Dashboard</a>
 </body>
 </html>

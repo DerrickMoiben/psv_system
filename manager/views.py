@@ -137,9 +137,9 @@ def delete_stage(request, id):
     return redirect(view_all)
 
 def update_car(request, id):
-    cars = get_object_or_404(Car, id=id)
+    car = get_object_or_404(Car, id=id)
     if request.method == 'POST':
-        form = CarForm(request.POST, instance=cars)
+        form = CarForm(request.POST, instance=car)
         if form.is_valid():
             form.save()
             messages.success(request, 'Car updated successfully')
@@ -148,8 +148,8 @@ def update_car(request, id):
             messages.error(request, 'An error occured while tyring to update the car')
             # print(form.errors)
     else:
-        form = CarForm(instance=cars)
-    return render(request, 'update_car.html', {'form': form, 'cars': cars})
+        form = CarForm(instance=car)
+    return render(request, 'update_car.html', {'form': form, 'car': car})
 
 
 def update_route(request, route_id):
@@ -165,7 +165,7 @@ def update_route(request, route_id):
             print(form.errors)
     else:
         form = RouteForm(instance=route)
-    return render(request, 'update_route.html', {'form': form, 'route': route})
+    return render(request, 'update_route.html', {'form': form, 'object': route})
 
 def update_stage(request, id):
     stage = get_object_or_404(Stage, id=id)
@@ -178,6 +178,8 @@ def update_stage(request, id):
         else:
             messages.error(request, 'An error occured while trying to update the stage')
             print(form.errors)
+            print(form.data)
     else:
         form = StageForm(instance=stage)
-    return render(request, 'update_stage.html', {'form': form, 'stage': stage})   
+    return render(request, 'update_stage.html', {'form': form, 'object': stage})   
+
