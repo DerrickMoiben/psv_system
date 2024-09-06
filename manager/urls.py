@@ -15,4 +15,5 @@ urlpatterns = [
     path("update_car/<int:id>/", views.update_car, name="update_car"),
     path("update_route/<int:route_id>/", views.update_route, name="update_route"),
     path("update_stage/<int:id>/", views.update_stage, name="update_stage"),
+    path('ajax/load-stages/', views.load_stages, name='ajax_load_stages'),
 ]

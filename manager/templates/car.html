@@ -6,11 +6,38 @@
     <title>Car Admssion</title>
 </head>
 <body>
+    {% for stage in stages %}
+    <option value="{{ stage.id }}">{{ stage.stage_name }}</option>
+{% endfor %}
+    <h1>Add Car</h1>
     <form action="{% url 'add_car' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Add car</button>
         <a href="{% url 'manager_dashboard' %}">Back</a>
     </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        // Update stages when city changes
+        $("#id_route_name").change(function(){
+            var cityId = $(this).val();
+            var url = "{% url 'ajax_load_stages' %}";  // Add URL for your AJAX view
+            
+            $.ajax({
+                url: url,
+                data: {
+                    'city_id': cityId
+                },
+                success: function(data){
+                    $("#id_stages_pickup").html(data);
+                    $("#id_stages_dropoff").html(data);
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

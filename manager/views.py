@@ -183,3 +183,10 @@ def update_stage(request, id):
         form = StageForm(instance=stage)
     return render(request, 'update_stage.html', {'form': form, 'object': stage})   
 
+from django.http import JsonResponse
+from .models import Stage
+
+def load_stages(request):
+    city_id = request.GET.get('city_id')
+    stages = Stage.objects.filter(city_id=city_id).order_by('stage_name')
+    return render(request, 'stages_dropdown_list_options.html', {'stages': stages})
