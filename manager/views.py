@@ -1,13 +1,13 @@
 # This file contains the views for the manager app  
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
-from .forms import ManagerLoginForm, ManagerSingupForm, RouteForm, StageForm, CarForm
+from .forms import ManagerLoginForm, ManagerSingupForm, RouteForm, StageForm, CarForm, CityForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
-from .models import Route, Stage, Car
+from .models import Route, Stage, Car, City
 
 
 
@@ -190,3 +190,18 @@ def load_stages(request):
     city_id = request.GET.get('city_id')
     stages = Stage.objects.filter(city_id=city_id).order_by('stage_name')
     return render(request, 'stages_dropdown_list_options.html', {'stages': stages})
+
+
+def manager_city(request):
+    if request.method == 'POST':
+        form = CityForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'City added successfully')
+            return redirect('view_all')
+        else:
+            messages.error(request, 'An error occurred during registration' )
+            print(form.errors)
+    else:
+        form = CityForm()
+    return render(request, 'city.html', {'form': form})

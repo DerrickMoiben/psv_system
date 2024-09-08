@@ -1,0 +1,5 @@
+<form action="{% url 'manager_city' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">add city</button>
+</form>

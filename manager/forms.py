@@ -2,7 +2,7 @@ from typing import Any, Mapping
 from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
-from . models import Route, Stage, Car
+from . models import City, Route, Stage, Car
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -52,3 +52,8 @@ class CarForm(forms.ModelForm):
         elif self.instance.pk:
             self.fields['stages_pickup'].queryset = self.instance.route.start_stage_set.order_by('stage_name')
             self.fields['stages_dropoff'].queryset = self.instance.route.end_stage_set.order_by('stage_name')
+
+class CityForm(forms.ModelForm):
+    class Meta:
+        model = City
+        fields = ['city_name']
