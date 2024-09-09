@@ -67,7 +67,7 @@
     </style>
 </head>
 <body>
-    <h1>Manage Your Fleet</h1>
+    <h1>Manage Matatus</h1>
 
     {% if messages %}
         {% for message in messages %}
@@ -144,6 +144,7 @@
                 <th>Route Name</th>
                 <th>Price</th>
                 <th>Distance</th>
+                <th>Stages</th>
                 <th>Update</th>
                 <th>Remove</th>
             </tr>
@@ -154,6 +155,11 @@
                 <td>{{ route.route_name }}</td>
                 <td>{{ route.route_price }}</td>
                 <td>{{ route.route_distance }}</td>
+                <td>
+                    {% for stage in route.stage.all %}
+                        {{ stage.stage_name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
                 <td>
                     <a href="{% url 'update_route' route.route_id %}">Update</a>
                 </td>

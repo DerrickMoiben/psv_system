@@ -9,7 +9,7 @@ class Stage(models.Model):
         return self.stage_name
 
 class Route(models.Model):
-    stage_name = models.ForeignKey(Stage, on_delete=models.CASCADE, related_name='stage')
+    stage = models.ManyToManyField(Stage, related_name='routes')
     route_id = models.AutoField(primary_key=True)
     route_name = models.CharField(max_length=50)
     route_distance = models.IntegerField()

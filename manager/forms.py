@@ -18,9 +18,10 @@ class ManagerLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class RouteForm(forms.ModelForm):
+    stage = forms.ModelMultipleChoiceField(queryset=Stage.objects.all(), label="Select Stages", help_text="Choose one or more stages for this route.", widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = Route
-        fields = ['route_name',  'route_distance', 'route_price']
+        fields = ['route_name',  'route_distance', 'route_price', 'stage']
 
 class StageForm(forms.ModelForm):
     class Meta:
