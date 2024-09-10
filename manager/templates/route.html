@@ -3,14 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aded route or update route</title>
+    <title>Manage Routes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #007BFF; /* Blue theme color */
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        button {
+            background-color: #c7475c; /* Blue theme color */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #dd0404; /* Darker blue on hover */
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF; /* Blue theme color */
+            padding: 10px 15px;
+            border: 1px solid #007BFF; /* Blue theme color */
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #007BFF; /* Blue theme color */
+            color: white;
+        }
+        .message {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
 </head>
 <body>
-    <form action="{% url 'manage_route' %}" method="post">
+    <h1>Manage Routes</h1>
+
+    <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        
+        <div id="price-fields"></div>  <!-- Container for dynamic price fields -->
+        
+        <button type="submit" disabled>Submit</button>
     </form>
-    <a href="{% url 'manager_dashboard' %}">Back</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const stageCheckboxes = document.querySelectorAll('input[name="stage"]');
+            const priceFieldsContainer = document.getElementById('price-fields');
+            const submitButton = document.querySelector('button[type="submit"]');
+
+            stageCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const stageId = this.value;
+                    const priceFieldId = `price_${stageId}`;
+
+                    if (this.checked) {
+                        // Create a new price input field
+                        const priceField = document.createElement('div');
+                        priceField.innerHTML = `
+                            <label for="${priceFieldId}">Price for Stage ${this.nextSibling.textContent}:</label>
+                            <input type="number" name="${priceFieldId}" id="${priceFieldId}" required>
+                        `;
+                        priceFieldsContainer.appendChild(priceField);
+                    } else {
+                        // Remove the price input field if unchecked
+                        const existingField = document.getElementById(priceFieldId);
+                        if (existingField) {
+                            priceFieldsContainer.removeChild(existingField.parentElement);
+                        }
+                    }
+                });
+            });
+
+            // Disable the submit button initially
+            submitButton.disabled = true;
+
+            // Enable the submit button when all required fields are filled
+            const form = document.querySelector('form');
+            form.addEventListener('input', function() {
+                const requiredFields = document.querySelectorAll('input[required]');
+                let allFieldsFilled = true;
+                requiredFields.forEach(field => {
+                    if (field.value.trim() === '') {
+                        allFieldsFilled = false;
+                    }
+                });
+                submitButton.disabled = !allFieldsFilled;
+            });
+        });
+    </script>
 </body>
 </html>

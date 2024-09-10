@@ -1,13 +1,13 @@
 # This file contains the views for the manager app  
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
-from .forms import ManagerLoginForm, ManagerSingupForm, RouteForm, StageForm, CarForm
+from .forms import ManagerLoginForm, ManagerSingupForm, RouteForm, StageForm, CarForm, StagePriceFormSet
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
-from .models import Route, Stage, Car
+from .models import Route, Stage, Car, StagePrice
 
 
 
@@ -59,19 +59,33 @@ def manager_logout(request):
 def manager_profile(request):
     return render(request, 'profile.html')
 
+
 def manage_route(request):
     if request.method == 'POST':
         form = RouteForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Route added successfully')
+            route = form.save()
+            
+            # Get selected stages
+            selected_stages = form.cleaned_data['stage']
+            stage_prices = []
+            for stage in selected_stages:
+                price = request.POST.get(f'price_{stage.id}')  # Get price for each stage
+                if price:
+                    stage_prices.append(StagePrice(route=route, stage=stage, price=price))
+            
+            # Save all stage prices
+            StagePrice.objects.bulk_create(stage_prices)
+            messages.success(request, 'Route and prices added successfully')
             return redirect('view_all')
         else:
-            messages.error(request, 'An error occurred during registration' )
+            messages.error(request, 'An error occurred during route registration')
             print(form.errors)
     else:
         form = RouteForm()
+    
     return render(request, 'route.html', {'form': form})
+
 
 def manage_stage(request):
     if request.method == 'POST':
@@ -103,7 +117,7 @@ def add_car(request):
     
 def view_all(request):
     cars = Car.objects.all()
-    routes = Route.objects.all()
+    routes = Route.objects.prefetch_related('stage', 'stage_prices').all()
     stages = Stage.objects.all()
     return render(request, 'view_all.html', {'cars': cars, 'routes': routes, 'stages': stages})
 
@@ -154,18 +168,31 @@ def update_car(request, id):
 
 def update_route(request, route_id):
     route = get_object_or_404(Route, route_id=route_id)
+    stage_prices = StagePrice.objects.filter(route=route)
+    
     if request.method == 'POST':
         form = RouteForm(request.POST, instance=route)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'You have sucessfutmy updated the route')
-            return redirect(view_all)
+        stage_price_formset = StagePriceFormSet(request.POST, queryset=stage_prices)
+        
+        if form.is_valid() and stage_price_formset.is_valid():
+            route = form.save()
+            stage_prices = stage_price_formset.save(commit=False)
+            
+            for stage_price in stage_prices:
+                stage_price.route = route
+                stage_price.save()
+            
+            messages.success(request, 'You have successfully updated the route and prices')
+            return redirect('view_all')
         else:
-            messages.error(request, 'They was an error while trying to update the ')
+            messages.error(request, 'There was an error while trying to update the route and prices')
             print(form.errors)
+            print(stage_price_formset.errors)
     else:
         form = RouteForm(instance=route)
-    return render(request, 'update_route.html', {'form': form, 'object': route})
+        stage_price_formset = StagePriceFormSet(queryset=stage_prices)
+    
+    return render(request, 'update_route.html', {'form': form, 'stage_price_formset': stage_price_formset, 'object': route})
 
 def update_stage(request, id):
     stage = get_object_or_404(Stage, id=id)

@@ -1,5 +1,26 @@
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Route</title>
+</head>
+<body>
+    <h1>Update Route</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <h3>Update Stage Prices</h3>
+        {{ stage_price_formset.management_form }}
+        {% for form in stage_price_formset %}
+            {{ form.as_p }}
+        {% endfor %}
+        
+        <button type="submit">Update</button>
+    </form>
+    
+    <a href="{% url 'view_all' %}">Back to View All</a>
+</body>
+</html>

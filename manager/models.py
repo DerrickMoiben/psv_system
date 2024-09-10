@@ -13,8 +13,6 @@ class Route(models.Model):
     route_id = models.AutoField(primary_key=True)
     route_name = models.CharField(max_length=50)
     route_distance = models.IntegerField()
-    route_price = models.IntegerField()
-
     def __str__(self):
         return self.route_name
     
@@ -25,3 +23,15 @@ class Car(models.Model):
     seating_capacity = models.IntegerField()
     def __str__(self):
         return self.car_plate
+
+class StagePrice(models.Model):
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='stage_prices')
+    stage = models.ForeignKey(Stage, on_delete=models.CASCADE, related_name='stage_prices')
+    price = models.IntegerField()
+
+    class Meta:
+        unique_together = ('route', 'stage')
+
+    def __str__(self):
+        return f'{self.route} - {self.stage}'
+    

@@ -2,7 +2,7 @@ from typing import Any, Mapping
 from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
-from . models import  Route, Stage, Car
+from . models import  Route, Stage, Car, StagePrice
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -21,7 +21,7 @@ class RouteForm(forms.ModelForm):
     stage = forms.ModelMultipleChoiceField(queryset=Stage.objects.all(), label="Select Stages", help_text="Choose one or more stages for this route.", widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = Route
-        fields = ['route_name',  'route_distance', 'route_price', 'stage']
+        fields = ['route_name',  'route_distance',  'stage']
 
 class StageForm(forms.ModelForm):
     class Meta:
@@ -33,3 +33,10 @@ class CarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = ['car_plate', 'seating_capacity', 'route']
+
+class StagePriceForm(forms.ModelForm):
+    class Meta:
+        model = StagePrice
+        fields = ['price',  'stage']
+
+StagePriceFormSet = forms.modelformset_factory(StagePrice, fields=('stage', 'price'), extra=0)
