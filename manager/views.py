@@ -232,3 +232,8 @@ def load_stages(request):
 #     else:
 #         form = CityForm()
 #     return render(request, 'city.html', {'form': form})
+
+
+
+
+# pushing for the green part mnazss
