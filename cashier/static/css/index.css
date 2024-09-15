@@ -1,15 +1,17 @@
-body {
-    margin: 0;
-}
+
 .nav {
     background-color: black;
-    overflow: hidden;
+    position: fixed;
+    top: -50px;
+    width: 100%;
+    transition: top 0.3s;
 }
 .nav a {
     float: left;
     color: white;
+    display: block;
     text-align: center;
-    padding: 20px 16px;
+    padding: 15px;
     text-decoration: none;
     font-size: 17px;
 }
