@@ -11,7 +11,21 @@ from .models import Route, Stage, Car, StagePrice
 
 
 
-"""This is a fuction for the manager to sign up then login"""
+
+
+def custom_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('manager_dashboard' if user.role == 'manager' else 'cashier_dashboard')
+        else:
+            return render (request, 'login.html', {'errors':'Invalid credentials'})
+    return render(request, 'login.html')
+
 @csrf_protect
 def manager_signup(request):
     if request.method == 'POST':
@@ -217,24 +231,3 @@ def load_stages(request):
     city_id = request.GET.get('city_id')
     stages = Stage.objects.filter(city_id=city_id).order_by('stage_name')
     return render(request, 'stages_dropdown_list_options.html', {'stages': stages})
-
-
-# def manager_city(request):
-#     if request.method == 'POST':
-#         form = CityForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'City added successfully')
-#             return redirect('view_all')
-#         else:
-#             messages.error(request, 'An error occurred during registration' )
-#             print(form.errors)
-#     else:
-#         form = CityForm()
-#     return render(request, 'city.html', {'form': form})
-
-
-
-
-# pushing for the green part mnazss
-#tu push ya jana sasa 
