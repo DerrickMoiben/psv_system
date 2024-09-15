@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.    
 
@@ -35,3 +36,12 @@ class StagePrice(models.Model):
     def __str__(self):
         return f'{self.route} - {self.stage}'
     
+
+
+
+class CustomUser(AbstractUser):
+    ROLE_CHOICES = (
+        ('manager', 'Manager'),
+        ('cashier', 'Cashier'),
+    )
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES)
