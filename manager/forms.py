@@ -2,14 +2,14 @@ from typing import Any, Mapping
 from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
-from . models import  Route, Stage, Car, StagePrice
+from . models import  Route, Stage, Car, StagePrice, CustomUser
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class ManagerSingupForm(UserCreationForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
 
 

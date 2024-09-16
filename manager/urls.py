@@ -3,7 +3,7 @@ from django.urls import path
 
 urlpatterns = [
     path("manager_signup/", views.manager_signup, name="manager_signup"),
-    path("manager_login/", views.manager_login, name="manager_login"),
+    # path("manager_login/", views.manager_login, name="manager_login"),
     path("manager_dashboard/", views.manager_dashboard, name="manager_dashboard"),
     path("manage_route/", views.manage_route, name="manage_route"),
     path("manage_stage/", views.manage_stage, name="manage_stage"),
@@ -17,4 +17,5 @@ urlpatterns = [
     path("update_stage/<int:id>/", views.update_stage, name="update_stage"),
     path('ajax/load-stages/', views.load_stages, name='ajax_load_stages'),
     # path('manager_city/', views.manager_city, name="manager_city"),
+    path('custom_login/', views.custom_login, name="custom_login"),
 ]

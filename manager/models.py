@@ -1,7 +1,10 @@
 from django.db import models
 
 
-# Create your models here.    
+# Create your models here.  
+# 
+
+  
 
 class Stage(models.Model):
     stage_name = models.CharField(max_length=50)
@@ -39,7 +42,7 @@ class StagePrice(models.Model):
 
 
 from django.contrib.auth.models import AbstractUser
-from django.db import models
+
 
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (

@@ -33,7 +33,7 @@ def manager_signup(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Account created successfully')
-            return redirect('manager_login')
+            return redirect('custom_login')
         else:
             messages.error(request, 'An error occurred during registration' )
             print(form.errors)
@@ -42,24 +42,24 @@ def manager_signup(request):
         form = ManagerSingupForm()
     return render(request, 'signup.html', {'form': form})
 
-@csrf_protect
-def manager_login(request):
-    if request.method == 'POST':
-        form = ManagerLoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, 'Login successful')
-                return redirect('manager_dashboard')
-            else:
-                messages.error(request, 'Invalid username or password')
-                form.errors()
-    else:
-        form = ManagerLoginForm()
-    return render(request, 'login.html', {'form': form})
+# @csrf_protect
+# def manager_login(request):
+#     if request.method == 'POST':
+#         form = ManagerLoginForm(request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             password = form.cleaned_data['password']
+#             user = authenticate(username=username, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 messages.success(request, 'Login successful')
+#                 return redirect('manager_dashboard')
+#             else:
+#                 messages.error(request, 'Invalid username or password')
+#                 form.errors()
+#     else:
+#         form = ManagerLoginForm()
+#     return render(request, 'login.html', {'form': form})
 
 
 
