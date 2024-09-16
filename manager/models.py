@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+
 
 # Create your models here.    
 
@@ -38,10 +38,12 @@ class StagePrice(models.Model):
     
 
 
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (
         ('manager', 'Manager'),
         ('cashier', 'Cashier'),
     )
-    role = models.CharField(max_length=50, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
