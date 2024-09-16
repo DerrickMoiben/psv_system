@@ -11,27 +11,27 @@ from .models import Route, Stage, Car, StagePrice
 from django.http import HttpResponseForbidden
 
 
-def custom_login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+# def custom_login(request):
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
+#         if user is not None:
+#             login(request, user)
             
-            # Check the user's role and redirect accordingly
-            if user.role == 'manager':
-                return redirect('manager_dashboard')
-            elif user.role == 'cashier':
-                return redirect('cashier_dashboard')
-            else:
-                return render(request, 'login.html', {'errors': 'Unknown user role'})
+#             # Check the user's role and redirect accordingly
+#             if user.role == 'manager':
+#                 return redirect('manager_dashboard')
+#             elif user.role == 'cashier':
+#                 return redirect('cashier_dashboard')
+#             else:
+#                 return render(request, 'login.html', {'errors': 'Unknown user role'})
 
-        else:
-            return render(request, 'login.html', {'errors': 'Invalid credentials'})
+#         else:
+#             return render(request, 'login.html', {'errors': 'Invalid credentials'})
 
-    return render(request, 'login.html')
+#     return render(request, 'login.html')
 
 
 @csrf_protect
@@ -64,7 +64,7 @@ def manager_login(request):
             login(request, user)
             return redirect('manager_dashboard')  # Redirect to manager dashboard
         else:
-            return render(request, 'manager_login.html', {'errors': 'Invalid credentials or not a manager'})
+            return render(request, 'login.html', {'errors': 'Invalid credentials or not a manager'})
     return render(request, 'login.html')
 
 @login_required

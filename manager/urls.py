@@ -17,5 +17,5 @@ urlpatterns = [
     path("update_stage/<int:id>/", views.update_stage, name="update_stage"),
     path('ajax/load-stages/', views.load_stages, name='ajax_load_stages'),
     # path('manager_city/', views.manager_city, name="manager_city"),
-    path('custom_login/', views.custom_login, name="custom_login"),
+    # path('custom_login/', views.custom_login, name="custom_login"),
 ]
