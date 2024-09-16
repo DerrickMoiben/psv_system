@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from .models import Route, Stage, Car, StagePrice
+from django.http import HttpResponseForbidden
 
 
 def custom_login(request):
@@ -42,7 +43,7 @@ def manager_signup(request):
             user.role = 'manager'  # Explicitly set the role to manager
             user.save()
             messages.success(request, 'Account created successfully')
-            return redirect('custom_login')
+            return redirect('manager_login')
         else:
             messages.error(request, 'An error occurred during registration')
             print(form.errors)
@@ -52,30 +53,24 @@ def manager_signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
+@csrf_protect
+def manager_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
 
-# @csrf_protect
-# def manager_login(request):
-#     if request.method == 'POST':
-#         form = ManagerLoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 messages.success(request, 'Login successful')
-#                 return redirect('manager_dashboard')
-#             else:
-#                 messages.error(request, 'Invalid username or password')
-#                 form.errors()
-#     else:
-#         form = ManagerLoginForm()
-#     return render(request, 'login.html', {'form': form})
-
-
+        if user is not None and user.role == 'manager':
+            login(request, user)
+            return redirect('manager_dashboard')  # Redirect to manager dashboard
+        else:
+            return render(request, 'manager_login.html', {'errors': 'Invalid credentials or not a manager'})
+    return render(request, 'login.html')
 
 @login_required
 def manager_dashboard(request):
+    if request.user.role != 'manager':
+        return HttpResponseForbidden("You do not have permission to view this page.")
     return render(request, 'dashboard.html')
 
 def manager_logout(request):

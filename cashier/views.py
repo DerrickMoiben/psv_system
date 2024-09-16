@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from .forms import CashierSignupForm
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponseForbidden
 
 # Create your views here.\
 
@@ -12,6 +13,8 @@ def index(request):
 
 
 def cashier_dashboard(request):
+    if request.user.role not in ['manager', 'cashier']:
+        return HttpResponseForbidden("You do not have permission to view this page.")
     return render(request, 'cashier_dashboard.html')
 
 @csrf_protect
@@ -23,7 +26,7 @@ def cashier_signup(request):
             user.role = 'cashier'  # Set role as cashier
             user.save()
             messages.success(request, 'Cashier account created successfully')
-            return redirect('custom_login')
+            return redirect('cashier_login')
         else:
             messages.error(request, 'An error occurred during registration')
             print(form.errors)
@@ -33,6 +36,10 @@ def cashier_signup(request):
     return render(request, 'signupcashier.html', {'form': form})
 
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_protect
+
 @csrf_protect
 def cashier_login(request):
     if request.method == 'POST':
@@ -40,9 +47,14 @@ def cashier_login(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
 
-        if user is not None and user.role == 'cashier':
-            login(request, user)
-            return redirect('cashier_dashboard')  # Redirect to cashier dashboard
+        if user is not None:
+            # Allow both cashiers and managers to access the cashier dashboard
+            if user.role == 'cashier' or user.role == 'manager':
+                login(request, user)
+                return redirect('cashier_dashboard')  # Redirect to cashier dashboard
+            else:
+                return render(request, 'cashier_login.html', {'errors': 'You are not authorized to access the cashier dashboard'})
         else:
-            return render(request, 'cashier_login.html', {'errors': 'Invalid credentials or not a cashier'})
+            return render(request, 'cashier_login.html', {'errors': 'Invalid credentials'})
+
     return render(request, 'cashier_login.html')
