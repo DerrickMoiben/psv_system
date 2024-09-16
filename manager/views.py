@@ -10,9 +10,6 @@ from django.views.decorators.csrf import csrf_protect
 from .models import Route, Stage, Car, StagePrice
 
 
-
-
-
 def custom_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -21,26 +18,40 @@ def custom_login(request):
 
         if user is not None:
             login(request, user)
-            return redirect('manager_dashboard' if user.role == 'manager' else 'cashier_dashboard')
+            
+            # Check the user's role and redirect accordingly
+            if user.role == 'manager':
+                return redirect('manager_dashboard')
+            elif user.role == 'cashier':
+                return redirect('cashier_dashboard')
+            else:
+                return render(request, 'login.html', {'errors': 'Unknown user role'})
+
         else:
-            return render (request, 'login.html', {'errors':'Invalid credentials'})
+            return render(request, 'login.html', {'errors': 'Invalid credentials'})
+
     return render(request, 'login.html')
+
 
 @csrf_protect
 def manager_signup(request):
     if request.method == 'POST':
         form = ManagerSingupForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.role = 'manager'  # Explicitly set the role to manager
+            user.save()
             messages.success(request, 'Account created successfully')
             return redirect('custom_login')
         else:
-            messages.error(request, 'An error occurred during registration' )
+            messages.error(request, 'An error occurred during registration')
             print(form.errors)
             
     else:
         form = ManagerSingupForm()
     return render(request, 'signup.html', {'form': form})
+
+
 
 # @csrf_protect
 # def manager_login(request):
