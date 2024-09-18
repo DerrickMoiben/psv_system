@@ -9,6 +9,8 @@ from manager.models import Car, Stage, Route, StagePrice
 from django.conf import settings
 
 class Ticket(models.Model):
+    name = models.CharField(max_length=100, default='name')
+    number = models.CharField(max_length=100, default='0')
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='tickets')
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='tickets')
     boarding_stage = models.ForeignKey(Stage, on_delete=models.CASCADE, related_name='boarding_tickets')
