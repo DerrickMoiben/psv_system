@@ -93,7 +93,7 @@
             <tr>
                 <td>{{ car.car_plate }}</td>
                 <td>{{ car.seating_capacity }}</td>
-                <td>{{ car.route_name }}</td>
+                <td>{{ car.route }}</td>
                 <td>
                     <a href="{% url 'update_car' car.id %}">Update</a>
                 </td>
@@ -142,7 +142,6 @@
         <thead>
             <tr>
                 <th>Route Name</th>
-                <th>Price</th>
                 <th>Distance</th>
                 <th>Stages</th>
                 <th>Update</th>
