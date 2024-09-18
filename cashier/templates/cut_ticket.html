@@ -1,0 +1,41 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Cut Ticket</button>
+</form>
+
+<script>
+    // Use JavaScript to dynamically load cars and seats based on selected route and car
+    document.getElementById("id_route").addEventListener("change", function () {
+        var routeId = this.value;
+        fetch(`/cashier/load-cars/?route=${routeId}`)
+            .then(response => response.json())
+            .then(data => {
+                let carSelect = document.getElementById("id_car");
+                carSelect.innerHTML = "";
+                data.forEach(car => {
+                    let option = document.createElement("option");
+                    option.value = car.id;
+                    option.textContent = car.car_plate;
+                    carSelect.appendChild(option);
+                });
+            });
+    });
+
+    document.getElementById("id_car").addEventListener("change", function () {
+        var carId = this.value;
+        fetch(`/cashier/load-seats/?car=${carId}`)
+            .then(response => response.json())
+            .then(data => {
+                let seatSelect = document.getElementById("id_seat_number");
+                seatSelect.innerHTML = "";
+                data.available_seats.forEach(seat => {
+                    let option = document.createElement("option");
+                    option.value = seat;
+                    option.textContent = seat;
+                    seatSelect.appendChild(option);
+                });
+            });
+    });
+</script>
