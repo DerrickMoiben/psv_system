@@ -1,41 +1,57 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <button type="submit">Cut Ticket</button>
-</form>
-
-<script>
-    // Use JavaScript to dynamically load cars and seats based on selected route and car
-    document.getElementById("id_route").addEventListener("change", function () {
-        var routeId = this.value;
-        fetch(`/cashier/load-cars/?route=${routeId}`)
-            .then(response => response.json())
-            .then(data => {
-                let carSelect = document.getElementById("id_car");
-                carSelect.innerHTML = "";
-                data.forEach(car => {
-                    let option = document.createElement("option");
-                    option.value = car.id;
-                    option.textContent = car.car_plate;
-                    carSelect.appendChild(option);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Ticket</title>
+    <script>
+        function updateStages() {
+            var route = document.getElementById('id_route').value;
+            var alightingStageSelect = document.getElementById('id_alighting_stage');
+            
+            // Fetch stages based on selected route
+            fetch(`/get_stages/${route}/`)
+                .then(response => response.json())
+                .then(data => {
+                    alightingStageSelect.innerHTML = '';
+                    
+                    data.stages.forEach(stage => {
+                        var option = document.createElement('option');
+                        option.value = stage.id;
+                        option.text = stage.stage_name;
+                        alightingStageSelect.add(option);
+                    });
                 });
-            });
-    });
+        }
 
-    document.getElementById("id_car").addEventListener("change", function () {
-        var carId = this.value;
-        fetch(`/cashier/load-seats/?car=${carId}`)
-            .then(response => response.json())
-            .then(data => {
-                let seatSelect = document.getElementById("id_seat_number");
-                seatSelect.innerHTML = "";
-                data.available_seats.forEach(seat => {
-                    let option = document.createElement("option");
-                    option.value = seat;
-                    option.textContent = seat;
-                    seatSelect.appendChild(option);
+        function updatePrice() {
+            var route = document.getElementById('id_route').value;
+            var alightingStage = document.getElementById('id_alighting_stage').value;
+            
+            // Fetch price based on selected stage
+            fetch(`/get_price/${route}/${alightingStage}/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('id_price').value = data.price;
                 });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('id_route').addEventListener('change', function () {
+                updateStages();
             });
-    });
-</script>
+            document.getElementById('id_alighting_stage').addEventListener('change', function () {
+                updatePrice();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Create Ticket</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Ticket</button>
+    </form>
+</body>
+</html>

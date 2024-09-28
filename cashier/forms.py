@@ -26,13 +26,16 @@ class TicketForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TicketForm, self).__init__(*args, **kwargs)
+        
         if 'route' in self.data:
             try:
                 route_id = int(self.data.get('route'))
-                self.fields['alighting_stage'].queryset = Stage.objects.filter(routes__id=route_id)
+                # Use routes__route_id instead of routes__id for filtering
+                self.fields['alighting_stage'].queryset = Stage.objects.filter(routes__route_id=route_id)
             except (ValueError, TypeError):
-                pass
+                self.fields['alighting_stage'].queryset = Stage.objects.none()
         elif self.instance.pk:
+            # If editing an existing instance, get related stages
             self.fields['alighting_stage'].queryset = self.instance.route.stage_set.all()
 
     def clean(self):

@@ -67,23 +67,20 @@ from django.http import JsonResponse
 from .models import Ticket
 from manager.models import Route, Car, Stage, StagePrice
 from .forms import TicketForm
+from django.contrib import messages
 
 def cut_ticket(request):
     if request.method == 'POST':
         form = TicketForm(request.POST)
         if form.is_valid():
-            ticket = form.save(commit=False)
-            # Calculate the price based on route and stages
-            price_obj = StagePrice.objects.get(route=ticket.route, stage=ticket.alighting_stage)
-            ticket.price = price_obj.price
-            ticket.cashier = request.user
-            ticket.save()
-            return redirect('ticket_success', ticket_id=ticket.id)
+            form.save()
+            messages.success(request, 'Ticket created successfully')
+            return redirect('all_tickets')
     else:
         form = TicketForm()
     return render(request, 'cut_ticket.html', {'form': form})
 
-# View to dynamically load cars based on selected route
+
 def load_cars(request):
     route_id = request.GET.get('route')
     cars = Car.objects.filter(route_id=route_id)
@@ -97,7 +94,21 @@ def load_seats(request):
     available_seats = [i for i in range(1, car.seating_capacity + 1) if i not in taken_seats]
     return JsonResponse({'available_seats': available_seats})
 
-# Ticket success page after cutting the ticket
-def ticket_success(request, ticket_id):
-    ticket = get_object_or_404(Ticket, id=ticket_id)
-    return render(request, 'ticket_success.html', {'ticket': ticket})
+from django.http import JsonResponse
+from manager.models import Stage, StagePrice
+
+def get_stages(request, route_id):
+    stages = Stage.objects.filter(routes__id=route_id).values('id', 'stage_name')
+    return JsonResponse({'stages': list(stages)})
+
+def get_price(request, route_id, stage_id):
+    try:
+        price = StagePrice.objects.get(route_id=route_id, stage_id=stage_id).price
+        return JsonResponse({'price': price})
+    except StagePrice.DoesNotExist:
+        return JsonResponse({'price': '0.00'})
+    
+def all_tickets(request):
+    tickets = Ticket.objects.all()
+    return render(request, 'all_tickets.html', {'tickets': tickets})
+    

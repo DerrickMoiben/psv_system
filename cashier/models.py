@@ -15,7 +15,6 @@ class Ticket(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     seat_number = models.IntegerField()
     payment_method = models.CharField(max_length=100, choices=PAYMENT_METHOD_CHOICES, default='Cash')
-    cashier = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

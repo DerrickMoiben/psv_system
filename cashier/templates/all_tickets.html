@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Tickets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h1>All Tickets</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Car</th>
+            <th>Route</th>
+            <th>Alighting Stage</th>
+            <th>Price</th>
+            <th>Seat Number</th>
+            <th>Payment Method</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.name }}</td>
+            <td>{{ ticket.number }}</td>
+            <td>{{ ticket.car }}</td>
+            <td>{{ ticket.route }}</td>
+            <td>{{ ticket.alighting_stage }}</td>
+            <td>{{ ticket.price }}</td>
+            <td>{{ ticket.seat_number }}</td>
+            <td>{{ ticket.payment_method }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="9">No tickets available.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'cashier_dashboard' %}">Back</a>
+</body>
+</html>
