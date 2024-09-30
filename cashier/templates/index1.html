@@ -12,7 +12,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <!-- Brand/Logo -->
+            <!-- SafariMat Logo on the Left -->
             <a class="navbar-brand" href="#">SafariMat</a>
 
             <!-- Toggler for mobile responsiveness -->
@@ -20,9 +20,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Navbar Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Centered Navbar Links -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="#about">About Us</a>
                     </li>
@@ -33,14 +33,62 @@
                         <a class="nav-link" href="#testimonials">Testimonials</a>
                     </li>
                 </ul>
-                <!-- Book Button -->
-                <div class="d-flex">
-                    <a href="#book" class="btn btn-warning">Book Now</a>
-                </div>
+            </div>
+
+            <!-- Book Now Button on the Right -->
+            <div class="d-flex">
+                <a href="#book" class="btn btn-warning">Book Now</a>
             </div>
         </div>
     </nav>
-
+    <section class="hero-section d-flex justify-content-center align-items-center text-centre">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1 class="display-4 text-light">Travel Conveniently with SafariMat</h1>
+            <p class="lead text-light">
+                Experience a modern, user-friendly public transport system. Easily book your matatu tickets online, track availability in real time, and enjoy a smooth, safe, and hassle-free journey.
+            </p>
+            <a href="#learn-more" class="btn btn-primary btn-lg m-2">Learn More</a>
+            <a href="#book" class="btn btn-warning btn-lg m-2">Book Now</a>
+        </div>
+    </section>
+    <section class="mission-vision-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-centre">
+                    <img src="/cashier/static/images/mission.jpg" alt="SafariMat" class="img-fluid square-image">
+                </div>
+                <!-- rigt side text and statistics -->
+                 <div class="col-md-6">
+                    <h1 class="mb-4">Our Mission & Vision</h1>
+                    <p class="lead">
+                        SafariMat is dedicated to transforming public transport by offering a seamless, user-friendly experience. Our goal is to make matatu travel more accessible and efficient for everyone, ensuring a safe and enjoyable journey.
+                    </p>
+                    <!-- statistics part or sectio -->
+                    <div class="row mt-4">
+                        <div class="col-sm-6 mb-4">
+                            <h2 class="display-6">10,000 Passengers Served</h2>
+                            <p>
+                                Since our inception, we have successfully served over 10, 000 passengers, making their travel experience smoother and more enjoyable.
+                            </p>
+                        </div>
+                        <div class="col-sm-6 mb-4">
+                            <h2 class="display-6">50 Routes Avilable</h2>
+                            <p>We currently operate on 50 routes, providing extensive coverage to meet the diverse needs of our passengers.</p>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <h2 class="display-6">200 Matatu in Services</h2>
+                            <p>Our fleet consists of 200 matatus, ensuring that we can accommodate the growing demand for reliable public transport.</p>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <h2 class="display-6">95% Customer Satifaction</h2>
+                            <p>We pride ourselves on maintaining a 95% customer satisfaction rate, reflecting our commitment to quality service and passenger comfort.</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
     <!-- Bootstrap JS (Popper.js for toggling) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

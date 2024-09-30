@@ -18,3 +18,103 @@
     background-color: #e67e22;
     border-color: #e67e22;
 }
+
+.hero-section {
+    background-image: url('/cashier/static/images/car1.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem; /* Adjusts heading size */
+}
+
+p.lead {
+    font-size: 1.2rem; /* Adjusts text size for better readability */
+    line-height: 1.6;  /* Increases spacing between lines for a cleaner look */
+    margin-bottom: 20px;
+    color: #f0f0f0;
+}
+
+.text-light {
+    color: #fff !important;
+}
+
+.btn-primary, .btn-warning {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    margin-top: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+/* Custom CSS for Mission & Vision Section */
+.mission-vision-section {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+}
+
+.square-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px; /* To ensure it's square, adjust max-width */
+    border-radius: 5px;
+}
+
+.mission-vision-section h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.mission-vision-section .lead {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: black;
+}
+
+.mission-vision-section .display-6 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+}
+
+.mission-vision-section p {
+    font-size: 1.1rem;
+    list-style: 1.6;
+}
+
+@media (max-width: 768px) {
+    .square-image {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .mission-vision-section h1 {
+        font-size: 2rem;
+    }
+
+    .mission-vision-section .display-6 {
+        font-size: 1.5rem;
+    }
+}
