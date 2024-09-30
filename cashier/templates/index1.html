@@ -1,37 +1,47 @@
-<!-- lets make it cook with some css it now 0036 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="/cashier/static/css/index.css">
-   <link rel="stylesheet" href="">
-   <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafariMat</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/cashier/static/css/index.css">
 </head>
 <body>
-   <div class="nav" id="nav" >
-       <a href="">About Us</a>
-       <a href="">Services</a>
-       <a href="">Testimonials</a>
-       <a href="">FAQs</a>
-       <a href="">Blog</a>
-       <a href="">Contact US</a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <!-- Brand/Logo -->
+            <a class="navbar-brand" href="#">SafariMat</a>
 
-       <a  href="" class="split" >Book Now</a>
-       <a href="" class="split" >Get Support</a>
-   </div>
-   <br>
-   <br>
-   <a href="{% url 'manager_signup' %}">manager</a>
-   <a href="{% url 'cashier_signup' %}">cashier</a>
-   <br>
-   <br>
-   <br>
-   <br>
-   <h1>login bwana</h1>
+            <!-- Toggler for mobile responsiveness -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-   <a href="{% url 'manager_login' %}"> Manager login</a>
-   <a href="{% url 'cashier_login' %}">cashier Login</a>
-   <script src="/cashier/static/js/index.js"></script> 
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                </ul>
+                <!-- Book Button -->
+                <div class="d-flex">
+                    <a href="#book" class="btn btn-warning">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bootstrap JS (Popper.js for toggling) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
