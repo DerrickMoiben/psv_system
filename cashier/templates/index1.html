@@ -7,10 +7,11 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/cashier/static/css/index.css">
+    <link rel="script" href="/cashier/static/js/index.js">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <!-- SafariMat Logo on the Left -->
             <a class="navbar-brand" href="#">SafariMat</a>
@@ -67,7 +68,7 @@
                     <!-- statistics part or sectio -->
                     <div class="row mt-4">
                         <div class="col-sm-6 mb-4">
-                            <h2 class="display-6">10,000 Passengers Served</h2>
+                            <h2 class="display-6 counter" data-target="10000">0</h2>
                             <p>
                                 Since our inception, we have successfully served over 10, 000 passengers, making their travel experience smoother and more enjoyable.
                             </p>
@@ -89,7 +90,107 @@
             </div>
         </div>
     </section>
+
+
+    <section class="how-it-works-section py-5">
+        <div class="container">
+            <!-- Title -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h1 class="text-left font-weight-bold">How SafariMat Works</h1>
+                    <p class="lead">
+                        Discover how easy it is to use SafariMat for your daily commute. Follow these simple steps to book your tickets, track your matatu in real-time, and choose the best routes for your journey. Enjoy a seamless and hassle-free travel experience with SafariMat.
+                    </p>
+                </div>
+            </div>
+    
+            <!-- Features Section -->
+            <div class="row text-center">
+                <!-- Feature Card 1: Online Ticket Booking -->
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="/cashier/static/images/booking.jpeg" alt="Online Ticket Booking" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            <h3 class="card-title font-weight-bold">Online Ticket Booking</h3>
+                            <p class="card-text">
+                                Book your tickets online through our user-friendly platform. Select your route, pick-up, and drop-off points, and complete your booking in minutes.
+                            </p>
+                            <a href="#learn-more" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Feature Card 2: Real-Time Tracking -->
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="/cashier/static/images/tracking.jpeg" alt="Real-Time Tracking" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            <h3 class="card-title font-weight-bold">Real-Time Tracking</h3>
+                            <p class="card-text">
+                                Track matatu locations in real-time using our interactive map. Know exactly when your ride will arrive and plan your journey accordingly.
+                            </p>
+                            <a href="#learn-more" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Feature Card 3: Flexible Routes -->
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="/cashier/static/images/routes.jpeg" alt="Flexible Routes" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            <h3 class="card-title font-weight-bold">Flexible Routes</h3>
+                            <p class="card-text">
+                                Choose from a variety of routes to suit your travel needs. Explore our routes page to find the best options for your journey.
+                            </p>
+                            <a href="#learn-more" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+   
     <!-- Bootstrap JS (Popper.js for toggling) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to animate the counting
+        function countUp(element, target) {
+            let count = 0;
+            const increment = Math.ceil(target / 100); // Increment value
+            const interval = setInterval(() => {
+                count += increment;
+                if (count >= target) {
+                    count = target;
+                    clearInterval(interval);
+                }
+                element.textContent = count;
+            }, 20); // Adjust timing for smoother animation
+        }
+    
+        // Intersection Observer to trigger the count
+        const counters = document.querySelectorAll('.counter');
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 // Trigger when 50% of the element is visible
+        };
+    
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target.getAttribute('data-target');
+                    countUp(entry.target, target);
+                    observer.unobserve(entry.target); // Stop observing after counting
+                }
+            });
+        }, options);
+    
+        counters.forEach(counter => {
+            observer.observe(counter);
+        });
+    </script>
+    
 </body>
 </html>

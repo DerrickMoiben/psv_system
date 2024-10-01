@@ -1,3 +1,17 @@
+body {
+    padding-top: 80px;
+}
+
+.fixed-top {
+    z-index: 1030;
+}
+.navbar {
+    transition: background-colour 0.3s ease;
+}
+.navbar .scrolled {
+    background-color: rgb(0, 0, 0, 0.9);
+}
+
 /* Custom CSS */
 .navbar-brand {
     font-size: 1.75rem;
@@ -99,6 +113,12 @@ p.lead {
     color: black;
 }
 
+.mission-vision-section .counter {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: black;
+}
+
 .mission-vision-section p {
     font-size: 1.1rem;
     list-style: 1.6;
@@ -117,4 +137,95 @@ p.lead {
     .mission-vision-section .display-6 {
         font-size: 1.5rem;
     }
+}
+
+/* Custom CSS for How SafariMat Works Section */
+.how-it-works-section {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+}
+.how-it-works-section .lead {
+    color: black;
+}
+
+.how-it-works-section h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.how-it-works-section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.card {
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-img-top {
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .how-it-works-section img {
+        margin-bottom: 15px;
+    }
+
+    .how-it-works-section h1 {
+        font-size: 2rem;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .card-text {
+        font-size: 1rem;
+    }
+}
+
+
+
+/* Ensure each section takes up the full height of the viewport */
+section {
+    height: 100vh; /* Set the height of each section to 100% of the viewport height */
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+}
+
+/* Additional styles for hero section */
+.hero-section {
+    background-image: url('/cashier/static/images/car1.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Ensure that the mission-vision and how-it-works sections have proper spacing */
+.mission-vision-section, .how-it-works-section {
+    padding: 60px 0; /* Maintain padding for these sections */
+}
+
+.counter {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: black;
 }
