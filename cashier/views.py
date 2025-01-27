@@ -9,7 +9,7 @@ from django.http import HttpResponseForbidden
 # Create your views here.\
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'staffindex.html')
 
 
 def cashier_dashboard(request):

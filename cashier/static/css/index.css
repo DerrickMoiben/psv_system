@@ -1,18 +1,20 @@
+/* General Styles */
 body {
-    padding-top: 80px;
+    padding-top: 80px; /* Adjust for fixed navbar */
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
 }
 
-.fixed-top {
-    z-index: 1030;
-}
+/* Navbar */
 .navbar {
-    transition: background-colour 0.3s ease;
-}
-.navbar .scrolled {
-    background-color: rgb(0, 0, 0, 0.9);
+    transition: background-color 0.3s ease;
 }
 
-/* Custom CSS */
+.navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.9); /* Darker background on scroll */
+}
+
 .navbar-brand {
     font-size: 1.75rem;
     font-weight: bold;
@@ -26,6 +28,8 @@ body {
 .btn-warning {
     font-weight: bold;
     padding: 10px 20px;
+    background-color: #ffc107;
+    border-color: #ffc107;
 }
 
 .btn-warning:hover {
@@ -33,12 +37,17 @@ body {
     border-color: #e67e22;
 }
 
+/* Hero Section */
 .hero-section {
-    background-image: url('/cashier/static/images/car1.jpg'); /* Replace with your image path */
+    background-image: url('/cashier/static/images/car1.jpg'); /* Replace with your image */
     background-size: cover;
     background-position: center;
     height: 100vh;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .overlay {
@@ -47,105 +56,81 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
 }
 
 .content {
     position: relative;
     z-index: 2;
     max-width: 800px;
-    text-align: center;
+    padding: 20px;
 }
 
-h1 {
-    font-size: 2.5rem; /* Adjusts heading size */
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
 }
 
-p.lead {
-    font-size: 1.2rem; /* Adjusts text size for better readability */
-    line-height: 1.6;  /* Increases spacing between lines for a cleaner look */
-    margin-bottom: 20px;
+.hero-section .lead {
+    font-size: 1.2rem;
+    line-height: 1.6;
     color: #f0f0f0;
+    margin-bottom: 30px;
 }
 
-.text-light {
-    color: #fff !important;
-}
-
-.btn-primary, .btn-warning {
-    padding: 10px 20px;
+.hero-section .btn {
+    margin: 10px;
     font-size: 1.1rem;
-    margin-top: 20px;
+    padding: 10px 20px;
 }
 
-.btn-primary:hover {
-    background-color: #3498db;
-    border-color: #3498db;
-}
-
-/* Custom CSS for Mission & Vision Section */
+/* Mission & Vision Section */
 .mission-vision-section {
     background-color: #f8f9fa;
     padding: 60px 0;
 }
 
-.square-image {
-    width: 100%;
-    height: auto;
-    max-width: 500px; /* To ensure it's square, adjust max-width */
-    border-radius: 5px;
-}
-
 .mission-vision-section h1 {
     font-size: 2.5rem;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .mission-vision-section .lead {
     font-size: 1.1rem;
     line-height: 1.6;
-    color: black;
+    color: #333;
 }
 
 .mission-vision-section .display-6 {
     font-size: 2rem;
     font-weight: bold;
-    color: black;
+    color: #333;
 }
 
 .mission-vision-section .counter {
     font-size: 2.5rem;
     font-weight: bold;
-    color: black;
+    color: #333;
 }
 
 .mission-vision-section p {
     font-size: 1.1rem;
-    list-style: 1.6;
+    line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-    .square-image {
-        max-width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .mission-vision-section h1 {
-        font-size: 2rem;
-    }
-
-    .mission-vision-section .display-6 {
-        font-size: 1.5rem;
-    }
+.square-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    border-radius: 5px;
 }
 
-/* Custom CSS for How SafariMat Works Section */
+/* How It Works Section */
 .how-it-works-section {
     background-color: #f8f9fa;
     padding: 60px 0;
-}
-.how-it-works-section .lead {
-    color: black;
 }
 
 .how-it-works-section h1 {
@@ -154,9 +139,10 @@ p.lead {
     margin-bottom: 20px;
 }
 
-.how-it-works-section p {
+.how-it-works-section .lead {
     font-size: 1.1rem;
     line-height: 1.6;
+    color: #333;
 }
 
 .card {
@@ -182,15 +168,110 @@ p.lead {
 
 .card-text {
     font-size: 1.1rem;
+    line-height: 1.6;
 }
 
+/* Testimonials Section */
+.testimonials-section {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+}
+
+.testimonials-section h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.testimonials-section .card {
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.testimonials-section .card:hover {
+    transform: translateY(-10px);
+}
+
+.testimonials-section .card-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.testimonials-section .rounded-circle {
+    border: 2px solid #007BFF;
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 60px 0;
+}
+
+.footer h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.footer p, .footer ul {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #007BFF;
+}
+
+.footer .social-icons {
+    font-size: 1.5rem;
+}
+
+.footer .social-icons a {
+    transition: color 0.3s ease;
+    margin-right: 15px;
+}
+
+.footer .social-icons a:hover {
+    color: #007BFF;
+}
+
+.footer hr {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-    .how-it-works-section img {
-        margin-bottom: 15px;
+    .hero-section h1 {
+        font-size: 2rem;
     }
 
-    .how-it-works-section h1 {
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+
+    .mission-vision-section h1,
+    .how-it-works-section h1,
+    .testimonials-section h1 {
         font-size: 2rem;
+    }
+
+    .mission-vision-section .display-6,
+    .mission-vision-section .counter {
+        font-size: 1.5rem;
+    }
+
+    .mission-vision-section p,
+    .how-it-works-section p,
+    .testimonials-section p {
+        font-size: 1rem;
     }
 
     .card-title {
@@ -200,32 +281,66 @@ p.lead {
     .card-text {
         font-size: 1rem;
     }
+
+    .footer h3 {
+        font-size: 1.3rem;
+    }
+
+    .footer p, .footer ul {
+        font-size: 0.9rem;
+    }
 }
-
-
-
-/* Ensure each section takes up the full height of the viewport */
-section {
-    height: 100vh; /* Set the height of each section to 100% of the viewport height */
+/* Full-Page Sections */
+.full-page {
+    height: 100vh;
     display: flex;
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start; /* Optional: For smooth scrolling */
 }
 
-/* Additional styles for hero section */
+/* Hero Section */
 .hero-section {
     background-image: url('/cashier/static/images/car1.jpg');
     background-size: cover;
     background-position: center;
+    position: relative;
 }
 
-/* Ensure that the mission-vision and how-it-works sections have proper spacing */
-.mission-vision-section, .how-it-works-section {
-    padding: 60px 0; /* Maintain padding for these sections */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.counter {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: black;
+.content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+}
+
+/* Mission & Vision Section */
+.mission-vision-section {
+    background-color: #f8f9fa;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    background-color: #f8f9fa;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    background-color: #f8f9fa;
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 60px 0;
 }

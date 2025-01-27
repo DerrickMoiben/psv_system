@@ -6,112 +6,98 @@
     <title>SafariMat</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/cashier/static/css/index.css">
-    <link rel="script" href="/cashier/static/js/index.js">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <!-- SafariMat Logo on the Left -->
             <a class="navbar-brand" href="#">SafariMat</a>
-
-            <!-- Toggler for mobile responsiveness -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <!-- Centered Navbar Links -->
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#how-it-works">How It Works</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#testimonials">Testimonials</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#mission">Mission</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
                 </ul>
             </div>
-
-            <!-- Book Now Button on the Right -->
             <div class="d-flex">
                 <a href="#book" class="btn btn-warning">Book Now</a>
             </div>
         </div>
     </nav>
-    <section class="hero-section d-flex justify-content-center align-items-center text-centre">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section full-page">
         <div class="overlay"></div>
         <div class="content">
             <h1 class="display-4 text-light">Travel Conveniently with SafariMat</h1>
             <p class="lead text-light">
                 Experience a modern, user-friendly public transport system. Easily book your matatu tickets online, track availability in real time, and enjoy a smooth, safe, and hassle-free journey.
             </p>
-            <a href="#learn-more" class="btn btn-primary btn-lg m-2">Learn More</a>
+            <a href="#mission" class="btn btn-primary btn-lg m-2">Learn More</a>
             <a href="#book" class="btn btn-warning btn-lg m-2">Book Now</a>
         </div>
     </section>
-    <section class="mission-vision-section py-5">
+
+    <!-- Mission & Vision Section -->
+    <section id="mission" class="mission-vision-section full-page">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-md-6 text-centre">
-                    <img src="/cashier/static/images/mission.jpg" alt="SafariMat" class="img-fluid square-image">
+                <div class="col-md-6 text-center">
+                    <img src="/cashier/static/images/mission.jpg" alt="SafariMat Mission" class="img-fluid square-image">
                 </div>
-                <!-- rigt side text and statistics -->
-                 <div class="col-md-6">
-                    <h1 class="mb-4">Our Mission & Vision</h1>
+                <div class="col-md-6">
+                    <h1 class="mb-4 fw-bold">Our Mission & Vision</h1>
                     <p class="lead">
                         SafariMat is dedicated to transforming public transport by offering a seamless, user-friendly experience. Our goal is to make matatu travel more accessible and efficient for everyone, ensuring a safe and enjoyable journey.
                     </p>
-                    <!-- statistics part or sectio -->
                     <div class="row mt-4">
                         <div class="col-sm-6 mb-4">
-                            <h2 class="display-6 counter" data-target="10000">0</h2>
-                            <p>
-                                Since our inception, we have successfully served over 10, 000 passengers, making their travel experience smoother and more enjoyable.
-                            </p>
+                            <h2 class="display-6"><span class="counter" data-target="10000">0</span> Passengers Served</h2>
+                            <p>Since our inception, we have successfully served over 10,000 passengers, making their travel experience smoother and more enjoyable.</p>
                         </div>
                         <div class="col-sm-6 mb-4">
-                            <h2 class="display-6">50 Routes Avilable</h2>
+                            <h2 class="display-6"><span class="counter" data-target="50">0</span> Routes Available</h2>
                             <p>We currently operate on 50 routes, providing extensive coverage to meet the diverse needs of our passengers.</p>
                         </div>
                         <div class="col-md-6 mb-4">
-                            <h2 class="display-6">200 Matatu in Services</h2>
+                            <h2 class="display-6"><span class="counter" data-target="200">0</span> Matatus Available</h2>
                             <p>Our fleet consists of 200 matatus, ensuring that we can accommodate the growing demand for reliable public transport.</p>
                         </div>
                         <div class="col-md-6 mb-4">
-                            <h2 class="display-6">95% Customer Satifaction</h2>
+                            <h2 class="display-6"><span class="counter" data-target="95">0</span> Customer Satisfaction</h2>
                             <p>We pride ourselves on maintaining a 95% customer satisfaction rate, reflecting our commitment to quality service and passenger comfort.</p>
                         </div>
                     </div>
-                 </div>
+                </div>
             </div>
         </div>
     </section>
 
-
-    <section class="how-it-works-section py-5">
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works-section full-page">
         <div class="container">
-            <!-- Title -->
             <div class="row mb-4">
                 <div class="col-12">
-                    <h1 class="text-left font-weight-bold">How SafariMat Works</h1>
+                    <h1 class="text-left fw-bold">How SafariMat Works</h1>
                     <p class="lead">
                         Discover how easy it is to use SafariMat for your daily commute. Follow these simple steps to book your tickets, track your matatu in real-time, and choose the best routes for your journey. Enjoy a seamless and hassle-free travel experience with SafariMat.
                     </p>
                 </div>
             </div>
-    
-            <!-- Features Section -->
             <div class="row text-center">
-                <!-- Feature Card 1: Online Ticket Booking -->
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
                         <img src="/cashier/static/images/booking.jpeg" alt="Online Ticket Booking" class="card-img-top img-fluid">
                         <div class="card-body">
-                            <h3 class="card-title font-weight-bold">Online Ticket Booking</h3>
+                            <h3 class="card-title fw-bold">Online Ticket Booking</h3>
                             <p class="card-text">
                                 Book your tickets online through our user-friendly platform. Select your route, pick-up, and drop-off points, and complete your booking in minutes.
                             </p>
@@ -119,13 +105,11 @@
                         </div>
                     </div>
                 </div>
-    
-                <!-- Feature Card 2: Real-Time Tracking -->
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
                         <img src="/cashier/static/images/tracking.jpeg" alt="Real-Time Tracking" class="card-img-top img-fluid">
                         <div class="card-body">
-                            <h3 class="card-title font-weight-bold">Real-Time Tracking</h3>
+                            <h3 class="card-title fw-bold">Real-Time Tracking</h3>
                             <p class="card-text">
                                 Track matatu locations in real-time using our interactive map. Know exactly when your ride will arrive and plan your journey accordingly.
                             </p>
@@ -133,13 +117,11 @@
                         </div>
                     </div>
                 </div>
-    
-                <!-- Feature Card 3: Flexible Routes -->
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
                         <img src="/cashier/static/images/routes.jpeg" alt="Flexible Routes" class="card-img-top img-fluid">
                         <div class="card-body">
-                            <h3 class="card-title font-weight-bold">Flexible Routes</h3>
+                            <h3 class="card-title fw-bold">Flexible Routes</h3>
                             <p class="card-text">
                                 Choose from a variety of routes to suit your travel needs. Explore our routes page to find the best options for your journey.
                             </p>
@@ -150,47 +132,115 @@
             </div>
         </div>
     </section>
-    
-   
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section full-page">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h1 class="fw-bold">What Our Customers Say</h1>
+                    <p class="lead">
+                        Hear from our satisfied customers about their experiences with SafariMat. We are committed to providing the best service for all our passengers.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <p class="card-text">
+                                "SafariMat has made my daily commute so much easier. The real-time tracking feature is a game-changer!"
+                            </p>
+                            <div class="d-flex align-items-center">
+                                <img src="/cashier/static/images/user1.jpg" alt="John Doe - Happy Customer" class="rounded-circle me-3" width="50" height="50">
+                                <div>
+                                    <h5 class="mb-0">John Doe</h5>
+                                    <small>Nairobi, Kenya</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <p class="card-text">
+                                "Booking tickets online is so convenient. I no longer have to worry about long queues at the bus stop."
+                            </p>
+                            <div class="d-flex align-items-center">
+                                <img src="/cashier/static/images/user2.jpg" alt="Jane Smith - Happy Customer" class="rounded-circle me-3" width="50" height="50">
+                                <div>
+                                    <h5 class="mb-0">Jane Smith</h5>
+                                    <small>Mombasa, Kenya</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <p class="card-text">
+                                "The flexible routes and affordable prices make SafariMat my go-to choice for travel."
+                            </p>
+                            <div class="d-flex align-items-center">
+                                <img src="/cashier/static/images/user3.jpg" alt="Michael Johnson - Happy Customer" class="rounded-circle me-3" width="50" height="50">
+                                <div>
+                                    <h5 class="mb-0">Michael Johnson</h5>
+                                    <small>Kisumu, Kenya</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h3>About SafariMat</h3>
+                    <p>
+                        SafariMat is revolutionizing public transport in Kenya by providing a seamless, user-friendly platform for booking matatu tickets and tracking rides in real-time.
+                    </p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h3>Quick Links</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#hero" class="text-light">Home</a></li>
+                        <li><a href="#mission" class="text-light">Mission</a></li>
+                        <li><a href="#how-it-works" class="text-light">How It Works</a></li>
+                        <li><a href="#testimonials" class="text-light">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h3>Contact Us</h3>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Nairobi, Kenya</li>
+                        <li><i class="fas fa-phone me-2"></i> +254 712 345 678</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@safarimat.com</li>
+                    </ul>
+                    <div class="social-icons">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 SafariMat. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Bootstrap JS (Popper.js for toggling) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Function to animate the counting
-        function countUp(element, target) {
-            let count = 0;
-            const increment = Math.ceil(target / 100); // Increment value
-            const interval = setInterval(() => {
-                count += increment;
-                if (count >= target) {
-                    count = target;
-                    clearInterval(interval);
-                }
-                element.textContent = count;
-            }, 20); // Adjust timing for smoother animation
-        }
-    
-        // Intersection Observer to trigger the count
-        const counters = document.querySelectorAll('.counter');
-        const options = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5 // Trigger when 50% of the element is visible
-        };
-    
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const target = entry.target.getAttribute('data-target');
-                    countUp(entry.target, target);
-                    observer.unobserve(entry.target); // Stop observing after counting
-                }
-            });
-        }, options);
-    
-        counters.forEach(counter => {
-            observer.observe(counter);
-        });
-    </script>
-    
+    <!-- Custom JS -->
+    <script src="/cashier/static/js/index.js"></script>
 </body>
 </html>

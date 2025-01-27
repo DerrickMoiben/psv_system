@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from .models import Route, Stage, Car, StagePrice
 from django.http import HttpResponseForbidden
+from cashier.models import Ticket
+from cashier.forms import TicketForm
 
 
 # def custom_login(request):
@@ -67,11 +69,18 @@ def manager_login(request):
             return render(request, 'login.html', {'errors': 'Invalid credentials or not a manager'})
     return render(request, 'login.html')
 
-@login_required
+@login_required 
+
 def manager_dashboard(request):
-    if request.user.role != 'manager':
-        return HttpResponseForbidden("You do not have permission to view this page.")
-    return render(request, 'dashboard.html')
+    total_cars = Car.objects.count()
+    total_routes = Route.objects.count()
+    total_stages = Stage.objects.count()
+    context = {
+        'total_cars': total_cars,
+        'total_routes': total_routes,
+        'total_stages': total_stages,
+    }
+    return render(request, 'dashboard.html', context)
 
 def manager_logout(request):
     return render(request, 'logout.html')
