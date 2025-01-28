@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
-from .forms import CashierSignupForm
+from .forms import CashierSignupForm, TicketForm, RouteSelectionForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseForbidden
 
@@ -111,8 +111,16 @@ def cut_ticket(request):
 
 
 def select_route(request):
-    routes = Route.objects.all()
-    return render(request, 'select_route.html', {'routes': routes})
+   #select route and redirect t the cut ticket page
+    if request.method == 'POST':
+        form = RouteSelectionForm(request.POST)
+        if form.is_valid():
+            route = form.save()
+            return redirect('cut_ticket')
+    else:
+        form = RouteSelectionForm()
+    routes = Route.objects.prefetch_related('stage', 'stage_prices').all()
+    return render(request, 'select_route.html', {'routes': routes, 'form': form})
     
 def all_tickets(request):
     tickets = Ticket.objects.all()

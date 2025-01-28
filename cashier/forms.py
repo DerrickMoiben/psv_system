@@ -7,7 +7,11 @@ class RouteForm(forms.ModelForm):
     class Meta:
         model = Route
         fields = ['route_name']
-
+        
+class RouteSelectionForm(forms.Form):
+    route = forms.ModelChoiceField(queryset=Route.objects.all(), empty_label='Select a route')
+    
+    
 class CashierSignupForm(UserCreationForm):
     class Meta:
         model = CustomUser

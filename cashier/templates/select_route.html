@@ -9,6 +9,7 @@
 
 </head>
 <body>
+    <!-- render all the routes an dth the select one -->
     <h1>Select Route</h1>
     <form method="post">
         {% csrf_token %}
@@ -22,6 +23,16 @@
             </div>
         {% endfor %}
     {% endif %}
+    <h2>Available Routes</h2>
+    <ul>
+        {% for route in routes %}
+            <li>{{ route.route_name }}</li>
+            <!--  -->
+        {% endfor %}
+
+    </ul>
+
+
     
 </body>
 </html>
