@@ -1,7 +1,119 @@
-<h1>wozaaa</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safarimat Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/cashier_dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-cash-register"></i> Safarimat System
+        </div>
+        <ul class="navbar-nav">
+            <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#tickets"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
+            <li><a href="#cars"><i class="fas fa-car"></i> Cars</a></li>
+            <li><a href="#reports"><i class="fas fa-chart-line"></i> Reports</a></li>
+        </ul>
+    </nav>
 
-<a href="{% url 'all_tickets' %}">All tickets </a>
+    <!-- Hero Section (First Page) -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Safarimat PSV Management</h1>
+            <p>Efficient Public Service Vehicle Operations</p>
+            <div class="hero-actions">
+                <a href="#tickets" class="btn btn-primary">View Tickets</a>
+                <a href="#tickets" class="btn btn-secondary">Create Ticket</a>
+            </div>
+        </div>
+    </section>
 
-<br>
+    <!-- Tickets Section -->
+    <section id="tickets" class="section tickets">
+        <h2>Tickets Management</h2>
+        <div class="ticket-cards">
+            <div class="card">
+                <i class="fas fa-ticket-alt"></i>
+                <h3>Open Tickets</h3>
+                <p>{{ open_tickets_count }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Closed Tickets</h3>
+                <p>{{ closed_tickets_count }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-spinner"></i>
+                <h3>In Progress</h3>
+                <p>{{ in_progress_tickets_count }}</p>
+            </div>
+        </div>
+    </section>
 
-<a href="{% url 'cut_ticket' %}">Cut Ticket</a>
+    <!-- Available Cars Section -->
+    <section id="cars" class="section cars">
+        <h2>Available Vehicles</h2>
+        <div class="vehicle-grid">
+            <div class="vehicle-card">
+                <img src="https://images.unsplash.com/photo-1588702547954-4800ead296ef" alt="PSV Vehicle">
+                <h3>Nissan Matatu</h3>
+                <p>Capacity: 14 passengers</p>
+                <p class="status available">Available Now</p>
+            </div>
+            <div class="vehicle-card">
+                <img src="https://images.unsplash.com/photo-1588702547954-4800ead296ef" alt="PSV Vehicle">
+                <h3>Toyota Hiace</h3>
+                <p>Capacity: 18 passengers</p>
+                <p class="status on-route">On Route</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section id="reports" class="section reports">
+        <h2>System Reports</h2>
+        <div class="report-cards">
+            <div class="report-card">
+                <i class="fas fa-chart-bar"></i>
+                <h3>Daily Earnings</h3>
+                <p>KES 45,320</p>
+            </div>
+            <div class="report-card">
+                <i class="fas fa-users"></i>
+                <h3>Passengers Today</h3>
+                <p>1,234</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                <p><i class="fas fa-phone"></i> +254 712 345 678</p>
+                <p><i class="fas fa-envelope"></i> info@safarimat.com</p>
+            </div>
+            <div class="quick-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tickets">Tickets</a></li>
+                    <li><a href="#cars">Vehicles</a></li>
+                    <li><a href="#reports">Reports</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Safarimat Systems. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

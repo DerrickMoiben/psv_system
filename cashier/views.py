@@ -81,32 +81,38 @@ def cut_ticket(request):
     return render(request, 'cut_ticket.html', {'form': form})
 
 
-def load_cars(request):
-    route_id = request.GET.get('route')
-    cars = Car.objects.filter(route_id=route_id)
-    return JsonResponse(list(cars.values('id', 'car_plate')), safe=False)
+# def load_cars(request):
+#     route_id = request.GET.get('route')
+#     cars = Car.objects.filter(route_id=route_id)
+#     return JsonResponse(list(cars.values('id', 'car_plate')), safe=False)
 
-# View to dynamically load available seats based on selected car
-def load_seats(request):
-    car_id = request.GET.get('car')
-    car = get_object_or_404(Car, id=car_id)
-    taken_seats = car.tickets.values_list('seat_number', flat=True)
-    available_seats = [i for i in range(1, car.seating_capacity + 1) if i not in taken_seats]
-    return JsonResponse({'available_seats': available_seats})
+# # View to dynamically load available seats based on selected car
+# def load_seats(request):
+#     car_id = request.GET.get('car')
+#     car = get_object_or_404(Car, id=car_id)
+#     taken_seats = car.tickets.values_list('seat_number', flat=True)
+#     available_seats = [i for i in range(1, car.seating_capacity + 1) if i not in taken_seats]
+#     return JsonResponse({'available_seats': available_seats})
 
-from django.http import JsonResponse
-from manager.models import Stage, StagePrice
+# from django.http import JsonResponse
+# from manager.models import Stage, StagePrice
 
-def get_stages(request, route_id):
-    stages = Stage.objects.filter(routes__id=route_id).values('id', 'stage_name')
-    return JsonResponse({'stages': list(stages)})
+# def get_stages(request, route_id):
+#     stages = Stage.objects.filter(routes__id=route_id).values('id', 'stage_name')
+#     return JsonResponse({'stages': list(stages)})
 
-def get_price(request, route_id, stage_id):
-    try:
-        price = StagePrice.objects.get(route_id=route_id, stage_id=stage_id).price
-        return JsonResponse({'price': price})
-    except StagePrice.DoesNotExist:
-        return JsonResponse({'price': '0.00'})
+# def get_price(request, route_id, stage_id):
+#     try:
+#         price = StagePrice.objects.get(route_id=route_id, stage_id=stage_id).price
+#         return JsonResponse({'price': price})
+#     except StagePrice.DoesNotExist:
+#         return JsonResponse({'price': '0.00'})
+
+
+
+def select_route(request):
+    routes = Route.objects.all()
+    return render(request, 'select_route.html', {'routes': routes})
     
 def all_tickets(request):
     tickets = Ticket.objects.all()

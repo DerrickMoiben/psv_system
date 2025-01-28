@@ -32,17 +32,13 @@
             fetch(`/get_price/${route}/${alightingStage}/`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('id_price').value = data.price;
+                    document.getElementById('id_price').value = data.price; // Update price input
                 });
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('id_route').addEventListener('change', function () {
-                updateStages();
-            });
-            document.getElementById('id_alighting_stage').addEventListener('change', function () {
-                updatePrice();
-            });
+            document.getElementById('id_route').addEventListener('change', updateStages);
+            document.getElementById('id_alighting_stage').addEventListener('change', updatePrice);
         });
     </script>
 </head>
@@ -51,6 +47,13 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        
+        <!-- Add a field to display the price -->
+        <div>
+            <label for="id_price">Price:</label>
+            <input type="text" id="id_price" name="price" readonly />
+        </div>
+        
         <button type="submit">Create Ticket</button>
     </form>
 </body>

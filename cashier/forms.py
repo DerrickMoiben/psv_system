@@ -1,6 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from manager.models import CustomUser
+from manager.models import CustomUser, Route
+
+
+class RouteForm(forms.ModelForm):
+    class Meta:
+        model = Route
+        fields = ['route_name']
 
 class CashierSignupForm(UserCreationForm):
     class Meta:
@@ -51,3 +57,6 @@ class TicketForm(forms.ModelForm):
                 raise forms.ValidationError("Price for the selected stage is not defined.")
         
         return cleaned_data
+    
+    
+    
