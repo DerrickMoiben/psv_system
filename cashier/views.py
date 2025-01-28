@@ -70,6 +70,15 @@ from .forms import TicketForm
 from django.contrib import messages
 
 def cut_ticket(request):
+    # route_id = request.session.get('selected_route')
+    # if not route_id:
+    #     return redirect('select_route')
+    # try:
+    #     select_route = Route.objects.get(pk=route_id)
+    # except Route.DoesNotExist:
+    #     messages.error(request, 'Selected route does not exist')
+    #     return redirect('select_route')
+    
     if request.method == 'POST':
         form = TicketForm(request.POST)
         if form.is_valid():
@@ -109,19 +118,21 @@ def cut_ticket(request):
 #         return JsonResponse({'price': '0.00'})
 
 
-
 def select_route(request):
-   #select route and redirect t the cut ticket page
     if request.method == 'POST':
-        form = RouteSelectionForm(request.POST)
-        if form.is_valid():
-            route = form.save()
+        selected_route_id = request.POST.get('route')
+        try:
+            selected_route = Route.objects.get(pk=selected_route_id)
+            
+            request.session['selected_route'] = selected_route_id
             return redirect('cut_ticket')
+        except Route.DoesNotExist:
+            messages.error(request, 'Selected route does not exist')
+            return redirect('select_route')
     else:
         form = RouteSelectionForm()
-    routes = Route.objects.prefetch_related('stage', 'stage_prices').all()
-    return render(request, 'select_route.html', {'routes': routes, 'form': form})
-    
+    return render(request, 'select_route.html', {'form': form})
+
 def all_tickets(request):
     tickets = Ticket.objects.all()
     return render(request, 'all_tickets.html', {'tickets': tickets})
