@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_protect
 from .forms import CashierSignupForm, TicketForm, RouteSelectionForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseForbidden
+from .models import Route, Ticket
+
 
 # Create your views here.\
 
@@ -36,10 +38,6 @@ def cashier_signup(request):
     return render(request, 'signupcashier.html', {'form': form})
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.views.decorators.csrf import csrf_protect
-
 @csrf_protect
 def cashier_login(request):
     if request.method == 'POST':
@@ -61,61 +59,7 @@ def cashier_login(request):
 
 
 
-# cashier/views.py
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
-from .models import Ticket
-from manager.models import Route, Car, Stage, StagePrice
-from .forms import TicketForm
-from django.contrib import messages
-
-def cut_ticket(request):
-    # route_id = request.session.get('selected_route')
-    # if not route_id:
-    #     return redirect('select_route')
-    # try:
-    #     select_route = Route.objects.get(pk=route_id)
-    # except Route.DoesNotExist:
-    #     messages.error(request, 'Selected route does not exist')
-    #     return redirect('select_route')
-    
-    if request.method == 'POST':
-        form = TicketForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Ticket created successfully')
-            return redirect('all_tickets')
-    else:
-        form = TicketForm()
-    return render(request, 'cut_ticket.html', {'form': form})
-
-
-# def load_cars(request):
-#     route_id = request.GET.get('route')
-#     cars = Car.objects.filter(route_id=route_id)
-#     return JsonResponse(list(cars.values('id', 'car_plate')), safe=False)
-
-# # View to dynamically load available seats based on selected car
-# def load_seats(request):
-#     car_id = request.GET.get('car')
-#     car = get_object_or_404(Car, id=car_id)
-#     taken_seats = car.tickets.values_list('seat_number', flat=True)
-#     available_seats = [i for i in range(1, car.seating_capacity + 1) if i not in taken_seats]
-#     return JsonResponse({'available_seats': available_seats})
-
-# from django.http import JsonResponse
-# from manager.models import Stage, StagePrice
-
-# def get_stages(request, route_id):
-#     stages = Stage.objects.filter(routes__id=route_id).values('id', 'stage_name')
-#     return JsonResponse({'stages': list(stages)})
-
-# def get_price(request, route_id, stage_id):
-#     try:
-#         price = StagePrice.objects.get(route_id=route_id, stage_id=stage_id).price
-#         return JsonResponse({'price': price})
-#     except StagePrice.DoesNotExist:
-#         return JsonResponse({'price': '0.00'})
+"""This will be used to select he route then it dynamically loads the stages for the selected route"""
 
 
 def select_route(request):
@@ -132,6 +76,38 @@ def select_route(request):
     else:
         form = RouteSelectionForm()
     return render(request, 'select_route.html', {'form': form})
+
+
+
+def cut_ticket(request):
+    # Retrieve selected route from session
+    selected_route_id = request.session.get('selected_route')
+    
+    if not selected_route_id:
+        messages.error(request, 'No route selected. Please select a route first.')
+        return redirect('select_route')
+
+    try:
+        selected_route = Route.objects.get(pk=selected_route_id)
+    except Route.DoesNotExist:
+        messages.error(request, 'Selected route does not exist.')
+        return redirect('select_route')
+
+    if request.method == 'POST':
+        form = TicketForm(request.POST, route=selected_route)  # Pass the selected route to the form
+        if form.is_valid():
+            # Save ticket with selected route
+            ticket = form.save(commit=False)
+            ticket.route = selected_route  # Set the route from session
+            ticket.save()
+            messages.success(request, 'Ticket successfully created!')
+            return redirect('all_tickets')  # Redirect to all tickets or another page
+    else:
+        # Initialize form with selected route
+        form = TicketForm(route=selected_route)  # Pass the selected route here as well
+
+    return render(request, 'cut_ticket.html', {'form': form, 'selected_route': selected_route})
+
 
 def all_tickets(request):
     tickets = Ticket.objects.all()

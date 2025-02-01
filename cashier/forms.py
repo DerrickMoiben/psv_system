@@ -27,26 +27,25 @@ class CashierSignupForm(UserCreationForm):
 
 from django import forms
 from .models import Ticket
-from manager.models import Stage, Route, StagePrice
+from manager.models import Stage, Route, StagePrice, Car
 
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['name', 'number', 'car', 'route', 'alighting_stage', 'price', 'seat_number', 'payment_method']
+        fields = ['name', 'phone_number', 'car', 'alighting_stage', 'price', 'seat_number', 'payment_method']
 
     def __init__(self, *args, **kwargs):
+        route = kwargs.pop('route', None)  # Get the route passed from the view
         super(TicketForm, self).__init__(*args, **kwargs)
-        
-        if 'route' in self.data:
-            try:
-                route_id = int(self.data.get('route'))
-                # Use routes__route_id instead of routes__id for filtering
-                self.fields['alighting_stage'].queryset = Stage.objects.filter(routes__route_id=route_id)
-            except (ValueError, TypeError):
-                self.fields['alighting_stage'].queryset = Stage.objects.none()
-        elif self.instance.pk:
-            # If editing an existing instance, get related stages
-            self.fields['alighting_stage'].queryset = self.instance.route.stage_set.all()
+
+        if route:
+            # Filter alighting stages based on the selected route
+            self.fields['alighting_stage'].queryset = Stage.objects.filter(routes=route)
+            # Filter cars based on the selected route (assuming a relationship exists)
+            self.fields['car'].queryset = Car.objects.filter(route=route)  # Adjust this line based on your model relationships
+        else:
+            self.fields['alighting_stage'].queryset = Stage.objects.none()
+            self.fields['car'].queryset = Car.objects.none()
 
     def clean(self):
         cleaned_data = super().clean()
@@ -59,8 +58,5 @@ class TicketForm(forms.ModelForm):
                 cleaned_data['price'] = stage_price.price
             except StagePrice.DoesNotExist:
                 raise forms.ValidationError("Price for the selected stage is not defined.")
-        
+
         return cleaned_data
-    
-    
-    
