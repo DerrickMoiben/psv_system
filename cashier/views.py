@@ -78,9 +78,12 @@ def select_route(request):
     return render(request, 'select_route.html', {'form': form})
 
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import TicketForm
+from .models import Route, StagePrice
 
 def cut_ticket(request):
-    # Retrieve selected route from session
     selected_route_id = request.session.get('selected_route')
     
     if not selected_route_id:
@@ -89,24 +92,63 @@ def cut_ticket(request):
 
     try:
         selected_route = Route.objects.get(pk=selected_route_id)
+        stage_prices = StagePrice.objects.filter(route=selected_route) \
+                      .select_related('stage') \
+                      .only('stage_id', 'price')
     except Route.DoesNotExist:
         messages.error(request, 'Selected route does not exist.')
         return redirect('select_route')
 
-    if request.method == 'POST':
-        form = TicketForm(request.POST, route=selected_route)  # Pass the selected route to the form
-        if form.is_valid():
-            # Save ticket with selected route
-            ticket = form.save(commit=False)
-            ticket.route = selected_route  # Set the route from session
-            ticket.save()
-            messages.success(request, 'Ticket successfully created!')
-            return redirect('all_tickets')  # Redirect to all tickets or another page
-    else:
-        # Initialize form with selected route
-        form = TicketForm(route=selected_route)  # Pass the selected route here as well
+    price_mapping = {sp.stage_id: sp.price for sp in stage_prices}
 
-    return render(request, 'cut_ticket.html', {'form': form, 'selected_route': selected_route})
+    if request.method == 'POST':
+        form = TicketForm(request.POST or None, route=selected_route)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.route = selected_route
+            alighting_stage = form.cleaned_data['alighting_stage']
+            
+            # Use pre-fetched prices
+            if (ticket_price := price_mapping.get(alighting_stage.id)) is not None:
+                ticket.price = ticket_price
+                ticket.save()
+                messages.success(request, 'Ticket successfully created!')
+                request.session.modified = True  # Security fix
+                return redirect('all_tickets')
+            
+            messages.error(request, 'Price for selected stage not found')
+            return render(request, 'cut_ticket.html', {
+                'form': form,
+                'selected_route': selected_route,
+                'stage_prices': price_mapping
+            })
+
+    else:
+        form = TicketForm(route=selected_route)
+
+    return render(request, 'cut_ticket.html', {
+        'form': form,
+        'selected_route': selected_route,
+        'stage_prices': price_mapping
+    })
+
+from django.http import JsonResponse
+from manager.models import StagePrice
+
+def get_stage_price(request, stage_id):
+    try:
+        # Assuming you have a way to get the route from session or request
+        route_id = request.session.get('selected_route')
+        if not route_id:
+            return JsonResponse({'error': 'No route selected'}, status=400)
+
+        # Get the price for the selected stage and route
+        stage_price = StagePrice.objects.get(stage_id=stage_id, route_id=route_id)
+        return JsonResponse({'price': str(stage_price.price)})
+    except StagePrice.DoesNotExist:
+        return JsonResponse({'price': None})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 
 def all_tickets(request):

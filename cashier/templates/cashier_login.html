@@ -1,36 +1,55 @@
 {% block content %}
 <div style="display: flex; height: 100vh; font-family: Arial, sans-serif;">
-    <!-- Image on the Left -->
-    <div style="flex: 1; background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
-        <!-- Real and functional image from Unsplash -->
+    <!-- Image on the Left (Car Image) -->
+    <div style="flex: 1; background-image: url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+        <!-- High-quality car image from Unsplash -->
     </div>
 
     <!-- Right Side: Logo and Login Form -->
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background-color: #f4f4f9;">
         <!-- Logo -->
-        <img src="https://images.pexels.com/photos/267389/pexels-photo-267389.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Logo" style="width: 100px; margin-bottom: 20px; border-radius: 50%;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1791/1791646.png" alt="Logo" style="width: 100px; margin-bottom: 20px; border-radius: 50%;">
 
         <!-- Login Form -->
-        <form method="post" style="width: 100%; max-width: 300px; display: flex; flex-direction: column; gap: 15px;">
+        <form method="post" style="width: 100%; max-width: 300px; display: flex; flex-direction: column; gap: 20px;">
             {% csrf_token %}
-            <label for="username" style="font-weight: bold; color: #555;">Username:</label>
-            <input type="text" name="username" id="username" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
             
-            <label for="password" style="font-weight: bold; color: #555;">Password:</label>
-            <input type="password" name="password" id="password" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+            <!-- Username Field with Icon -->
+            <div style="position: relative;">
+                <label for="username" style="font-weight: bold; color: #555; margin-bottom: 5px;">Username:</label>
+                <div style="position: relative;">
+                    <input type="text" name="username" id="username" required style="padding: 12px 12px 12px 40px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; width: 100%; outline: none; transition: border-color 0.3s;">
+                    <i class="fas fa-user" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #555;"></i>
+                </div>
+            </div>
             
-            <button type="submit" style="padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Login</button>
+            <!-- Password Field with Icon -->
+            <div style="position: relative;">
+                <label for="password" style="font-weight: bold; color: #555; margin-bottom: 5px;">Password:</label>
+                <div style="position: relative;">
+                    <input type="password" name="password" id="password" required style="padding: 12px 12px 12px 40px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; width: 100%; outline: none; transition: border-color 0.3s;">
+                    <i class="fas fa-lock" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #555;"></i>
+                </div>
+            </div>
+            
+            <!-- Login Button -->
+            <button type="submit" style="padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background-color 0.3s;">
+                <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>Login
+            </button>
         </form>
 
         <!-- Error Messages -->
         {% if errors %}
-        <p style="color: red; margin-top: 15px;">{{ errors }}</p>
+        <p style="color: red; margin-top: 15px; font-size: 14px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ errors }}</p>
         {% endif %}
 
+        <!-- Sign Up Link -->
         <div style="margin-top: 20px; text-align: center;">
-            <p style="color: #555; font-size: 12px; margin-bottom: 10px;">Don't have an account? <a href="#" style="color: #007bff; text-decoration: none; font-weight: bold;">Sign Up</a></p>
+            <p style="color: #555; font-size: 14px; margin-bottom: 10px;">Don't have an account? <a href="#" style="color: #007bff; text-decoration: none; font-weight: bold;">Sign Up</a></p>
         </div>
-
     </div>
 </div>
+
+<!-- Include FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}

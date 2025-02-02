@@ -1,56 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Ticket</title>
-    <script>
-        function updateStages() {
-            var route = document.getElementById('id_route').value;
-            var alightingStageSelect = document.getElementById('id_alighting_stage');
-            
-            // Fetch stages based on selected route
-            fetch(`/get_stages/${route}/`)
-                .then(response => response.json())
-                .then(data => {
-                    alightingStageSelect.innerHTML = '';
-                    
-                    data.stages.forEach(stage => {
-                        var option = document.createElement('option');
-                        option.value = stage.id;
-                        option.text = stage.stage_name;
-                        alightingStageSelect.add(option);
-                    });
-                });
-        }
+<!-- cut_ticket.html -->
+{% load custom_filters %}
+<h1 class="header">Cut Ticket for {{ selected_route.route_name }}</h1>
 
-        function updatePrice() {
-            var route = document.getElementById('id_route').value;
-            var alightingStage = document.getElementById('id_alighting_stage').value;
-            
-            // Fetch price based on selected stage
-            fetch(`/get_price/${route}/${alightingStage}/`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('id_price').value = data.price; // Update price input
-                });
-        }
+<form method="post" class="ticket-form">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="id_vehicle">Vehicle:</label>
+        {{ form.car }}
+    </div>
 
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('id_route').addEventListener('change', updateStages);
-            document.getElementById('id_alighting_stage').addEventListener('change', updatePrice);
-        });
-    </script>
-</head>
-<body>
-    <h1>Create Ticket</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <div class="form-group">
+        <label for="id_alighting_stage">Alighting Stage:</label>
+        <select name="alighting_stage" id="id_alighting_stage" class="stage-select">
+            {% for stage in form.alighting_stage.field.queryset %}
+                <option value="{{ stage.id }}" data-price="{{ stage_prices|get_item:stage.id }}">
+                    {{ stage.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="price-display">
+        <strong>Price:</strong> 
+        <span id="stage-price">{% if form.price.value %}{{ form.price.value }}{% else %}0.00{% endif %}</span>
+    </div>
+
+    {{ form.price.as_hidden }}  <!-- Hidden field to store actual price value -->
+
+    <button type="submit" class="submit-btn">Cut Ticket</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const stageSelect = document.getElementById('id_alighting_stage');
+    const priceSpan = document.getElementById('stage-price');
+    const priceInput = document.getElementById('id_price');
+
+    function updatePrice() {
+        const selectedOption = stageSelect.options[stageSelect.selectedIndex];
+        const price = selectedOption.getAttribute('data-price') || '0.00';
         
-        <!-- Add a field to display the price -->
-        
-        <button type="submit">Create Ticket</button>
-    </form>
-</body>
-</html>
+        priceSpan.textContent = price;
+        priceInput.value = price;
+    }
+
+    stageSelect.addEventListener('change', updatePrice);
+    updatePrice(); // Initial update
+});
+</script>
+
+<style>
+.ticket-form {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.stage-select, #id_vehicle {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.price-display {
+    margin: 1.5rem 0;
+    font-size: 1.2rem;
+}
+
+.submit-btn {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background: #0056b3;
+}
+</style>

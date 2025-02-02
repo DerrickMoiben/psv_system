@@ -32,31 +32,17 @@ from manager.models import Stage, Route, StagePrice, Car
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['name', 'phone_number', 'car', 'alighting_stage', 'price', 'seat_number', 'payment_method']
+        fields = ['car', 'alighting_stage', 'phone_number', 'name', 'payment_method', 'seat_number']
 
     def __init__(self, *args, **kwargs):
-        route = kwargs.pop('route', None)  # Get the route passed from the view
-        super(TicketForm, self).__init__(*args, **kwargs)
-
+        route = kwargs.pop('route', None)
+        super().__init__(*args, **kwargs)
+        
         if route:
-            # Filter alighting stages based on the selected route
-            self.fields['alighting_stage'].queryset = Stage.objects.filter(routes=route)
-            # Filter cars based on the selected route (assuming a relationship exists)
-            self.fields['car'].queryset = Car.objects.filter(route=route)  # Adjust this line based on your model relationships
-        else:
-            self.fields['alighting_stage'].queryset = Stage.objects.none()
-            self.fields['car'].queryset = Car.objects.none()
-
-    def clean(self):
-        cleaned_data = super().clean()
-        route = cleaned_data.get('route')
-        alighting_stage = cleaned_data.get('alighting_stage')
-
-        if route and alighting_stage:
-            try:
-                stage_price = StagePrice.objects.get(route=route, stage=alighting_stage)
-                cleaned_data['price'] = stage_price.price
-            except StagePrice.DoesNotExist:
-                raise forms.ValidationError("Price for the selected stage is not defined.")
-
-        return cleaned_data
+            # Filter vehicles assigned to this route
+            self.fields['car'].queryset = route.cars.all()
+            
+            # Filter stages available for this route
+            self.fields['alighting_stage'].queryset = Stage.objects.filter(
+                stage_prices__route=route
+            ).distinct()
