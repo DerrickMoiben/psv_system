@@ -99,6 +99,7 @@ def cut_ticket(request):
         messages.error(request, 'Selected route does not exist.')
         return redirect('select_route')
 
+    # Create a dictionary mapping stage IDs to prices
     price_mapping = {sp.stage_id: sp.price for sp in stage_prices}
 
     if request.method == 'POST':

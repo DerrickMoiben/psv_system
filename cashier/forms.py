@@ -29,20 +29,26 @@ from django import forms
 from .models import Ticket
 from manager.models import Stage, Route, StagePrice, Car
 
+# forms.py
+from django import forms
+from .models import Ticket, Stage, StagePrice
+
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['car', 'alighting_stage', 'phone_number', 'name', 'payment_method', 'seat_number']
+        fields = ['car', 'alighting_stage', 'name', 'phone_number', 'seat_number', 'payment_method']
 
     def __init__(self, *args, **kwargs):
-        route = kwargs.pop('route', None)
+        self.route = kwargs.pop('route', None)
         super().__init__(*args, **kwargs)
         
-        if route:
-            # Filter vehicles assigned to this route
-            self.fields['car'].queryset = route.cars.all()
+        if self.route:
+            # Filter cars assigned to this route
+            self.fields['car'].queryset = self.route.cars.all()
             
-            # Filter stages available for this route
-            self.fields['alighting_stage'].queryset = Stage.objects.filter(
-                stage_prices__route=route
-            ).distinct()
+            # Filter stages that have prices for this route
+            valid_stages = Stage.objects.filter(
+                id__in=StagePrice.objects.filter(route=self.route).values('stage_id')
+            )
+            self.fields['alighting_stage'].queryset = valid_stages
+            print("Stages in form:", valid_stages)
