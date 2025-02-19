@@ -147,24 +147,24 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-# import os
-# from dotenv import load_dotenv
+import os
+from dotenv import load_dotenv
 
-# # Load environment variables from .env file
-# load_dotenv()
+# Load environment variables from .env file
+load_dotenv()
 
-# GOOGLE_OAUTH_CLIENT_ID = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
-# GOOGLE_OAUTH_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
+GOOGLE_OAUTH_CLIENT_ID = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
+GOOGLE_OAUTH_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
 
-# SOCIALACCOUNT_PROVIDERS = {
-#     "google": {
-#         "APP": {
-#             "client_id": GOOGLE_OAUTH_CLIENT_ID,
-#             "secret": GOOGLE_OAUTH_CLIENT_SECRET,
-#         }
-#     },
-# }
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": GOOGLE_OAUTH_CLIENT_ID,
+            "secret": GOOGLE_OAUTH_CLIENT_SECRET,
+        }
+    },
+}
 
-# LOGIN_REDIRECT_URL = '/manager/manager_dashboard/'  # Change to the correct URL
+LOGIN_REDIRECT_URL = '/manager/manager_dashboard/'  # Change to the correct URL
 
-# SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_LOGIN_ON_GET = True

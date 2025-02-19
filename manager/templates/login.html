@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -196,6 +197,11 @@
             <!-- Sign Up Link -->
             <div class="signup-link">
                 Don't have an account? <a href="{% url 'manager_signup' %}">Sign Up</a>
+            </div>
+            <div class="signup-link">
+                Don't have an account? <a href="{% url 'manager_signup' %}">Sign Up</a>
+                <a href="{% provider_login_url 'google' %}">Login with Google</a>
+
             </div>
         </div>
 
