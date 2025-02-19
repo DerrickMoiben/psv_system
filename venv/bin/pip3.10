@@ -1,4 +1,4 @@
-#!/home/kim/psv_system-1/venv/bin/python3
+#!/home/kim/Projects/psv_system/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
