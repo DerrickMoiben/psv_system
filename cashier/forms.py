@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from manager.models import CustomUser, Route
+from manager.models import CustomUser, Route, Car
 
 
 class RouteForm(forms.ModelForm):
@@ -10,6 +10,15 @@ class RouteForm(forms.ModelForm):
         
 class RouteSelectionForm(forms.Form):
     route = forms.ModelChoiceField(queryset=Route.objects.all(), empty_label='Select a route')
+    
+class CarselectionForm(forms.Form):
+    car =  forms.ModelChoiceField(queryset=Car.objects.all(), empty_label='Select a car Route')
+    
+    def  __init__(self, *args, **kwargs):
+        Route = kwargs.pop('route', None)
+        super(CarselectionForm, self).__init__(*args, **kwargs)
+        if Route:
+            self.fields['car'].queryset = Car.objects.filter(route=Route, seating_capacity__gt=0)
     
     
 class CashierSignupForm(UserCreationForm):

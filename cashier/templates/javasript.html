@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=h, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Class Attribue with Javascript</h2>
+    <p>Click button to hide all elements with the class name </p>
+
+    <button onclick="myFunction()">Hide elements</button>
+
+    <h2 class="fruit">Mango</h2>
+    <p>Mango is the best fruit</p>
+
+    <h2 class="fruit">Orange</h2>
+    <p>Oranges are full o vitamin</p>
+
+    <h2 class="fruit">Apple</h2>
+    <p>An apple a day keeps the doctor away</p>
+
+    <script>
+        function myFunction(){
+            var x = document.getElementsByClassName("fruit");
+            for (var i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

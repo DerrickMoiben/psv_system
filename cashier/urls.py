@@ -14,4 +14,5 @@ urlpatterns = [
     # path('get_price/<int:route_id>/<int:stage_id>/', views.get_price, name='get_price'),
     path('all_tickets/', views.all_tickets, name='all_tickets'),
     path('select_route/', views.select_route, name='select_route'),
+    path('select_car/', views.select_car, name='select_car'),
 ]

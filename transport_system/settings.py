@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-po&v96ykjmx-ww57scj4sg*1w0a0&zq#673-tjfc+wr%zy11!g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['codversetech.co.ke', 'www.codversetech.co.ke']
+
 
 
 # Application definition
@@ -168,3 +169,11 @@ SOCIALACCOUNT_PROVIDERS = {
 LOGIN_REDIRECT_URL = '/manager/manager_dashboard/'  # Change to the correct URL
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+
+
+MPESA_CONSUMER_KEY = os.getenv('MPESA_CONSUMER_KEY')
+MPESA_CONSUMER_SECRET = os.getenv('MPESA_CONSUMER_SECRET')
+MPESA_SHORTCODE = os.getenv('MPESA_SHORTCODE')
+MPESA_PASSKEY = os.getenv('MPESA_PASSKEY')
+MPESA_CALLBACK_URL = os.getenv('MPESA_CALLBACK_URL')

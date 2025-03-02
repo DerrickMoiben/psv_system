@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
-from .forms import CashierSignupForm, TicketForm, RouteSelectionForm
+from .forms import CashierSignupForm, TicketForm, RouteSelectionForm, CarselectionForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseForbidden
 from .models import Route, Ticket
@@ -69,7 +69,7 @@ def select_route(request):
             selected_route = Route.objects.get(pk=selected_route_id)
             
             request.session['selected_route'] = selected_route_id
-            return redirect('cut_ticket')
+            return redirect('select_car')
         except Route.DoesNotExist:
             messages.error(request, 'Selected route does not exist')
             return redirect('select_route')
@@ -78,6 +78,29 @@ def select_route(request):
     return render(request, 'select_route.html', {'form': form})
 
 
+from manager.models import Car
+from django.shortcuts import get_object_or_404
+
+def select_car(request):
+    selected_route_id = request.session.get('selected_route')  # Get the sected_route_id
+    
+    if not selected_route_id:
+        messages.error(request, 'No route selected. Please select a route first.')
+        return redirect('select_route')
+    
+    selected_route = get_object_or_404(Route, pk=selected_route_id)
+    
+    if request.method == 'POST':
+        form = CarselectionForm(request.POST, route=selected_route)
+        if form.is_valid():
+            car_id = form.cleaned_data['car'].id
+            request.session['selected_car'] = car_id
+            return redirect('cut_ticket')
+    else:
+        form = CarselectionForm(route=selected_route)
+    return render(request, 'select_car.html', {'form': form, 'selected_route': selected_route}) 
+    
+    
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import TicketForm
