@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-po&v96ykjmx-ww57scj4sg*1w0a0&zq#673-tjfc+wr%zy11!g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['codversetech.co.ke', 'www.codversetech.co.ke']
+ALLOWED_HOSTS = ['codversetech.co.ke', 'www.codversetech.co.ke', '127.0.0.1', 'localhost']
 
 
 
