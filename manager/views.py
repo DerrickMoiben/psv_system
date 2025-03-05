@@ -246,3 +246,128 @@ def load_stages(request):
     city_id = request.GET.get('city_id')
     stages = Stage.objects.filter(city_id=city_id).order_by('stage_name')
     return render(request, 'stages_dropdown_list_options.html', {'stages': stages})
+
+
+
+import requests
+import base64
+import json
+import os
+from datetime import datetime
+from django.http import JsonResponse
+from django.shortcuts import render
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env
+
+# Get credentials from .env
+MPESA_CONSUMER_KEY = os.getenv('MPESA_CONSUMER_KEY')
+MPESA_CONSUMER_SECRET = os.getenv('MPESA_CONSUMER_SECRET')
+MPESA_SHORTCODE = os.getenv('MPESA_SHORTCODE')
+MPESA_PASSKEY = os.getenv('MPESA_PASSKEY')
+MPESA_CALLBACK_URL = os.getenv('MPESA_CALLBACK_URL')
+
+
+
+
+
+from django.http import HttpResponse
+import requests
+from requests.auth import HTTPBasicAuth
+import json
+
+
+def get_mpesa_access_token():
+    api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
+    response = requests.get(api_URL, auth=HTTPBasicAuth(MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET))
+    
+    # Print the response content for debugging
+    print("Response content:", response.content)
+    
+    try:
+        token_data = response.json()
+    except json.JSONDecodeError as e:
+        print("JSONDecodeError:", e)
+        return None
+    
+    return token_data.get("access_token")
+
+def stk_push_payment(request):
+    if request.method == "POST":
+        phone_number = request.POST.get("phone_number")  # Get phone number from form
+        amount = request.POST.get("amount")  # Get amount from form
+
+        # Validate and format the phone number
+        if phone_number.startswith("0"):
+            phone_number = "254" + phone_number[1:]
+        elif phone_number.startswith("+"):
+            phone_number = phone_number[1:]
+
+        if not phone_number.startswith("254"):
+            return JsonResponse({"error": "Invalid phone number format"}, status=400)
+
+        access_token = get_mpesa_access_token()
+        if not access_token:
+            return JsonResponse({"error": "Failed to retrieve access token"}, status=500)
+
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        data_to_encode = MPESA_SHORTCODE + MPESA_PASSKEY + timestamp
+        password = base64.b64encode(data_to_encode.encode()).decode('utf-8')
+
+        stk_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+        
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json"
+        }
+
+        payload = {
+            "env": "sandbox",
+            "BusinessShortCode": MPESA_SHORTCODE,
+            "Password": password,
+            "Timestamp": timestamp,
+            "TransactionType": "CustomerPayBillOnline",
+            "Amount": int(amount),
+            "PartyA": phone_number,
+            "PartyB": MPESA_SHORTCODE,
+            "PhoneNumber": phone_number,
+            "CallBackURL": MPESA_CALLBACK_URL,
+            "AccountReference": "5501810",
+            "TransactionDesc": "Payment for Order"
+        }
+
+        response = requests.post(stk_url, json=payload, headers=headers)
+        
+        # Print the response content for debugging
+        print("STK Push Response content:", response.content)
+        
+        try:
+            return JsonResponse(response.json())  # Return response to frontend
+        except json.JSONDecodeError as e:
+            print("JSONDecodeError:", e)
+            return JsonResponse({"error": "Failed to process STK Push request"}, status=500)
+
+    return render(request, "stk_push.html")  # Render form if GET request
+
+
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+@csrf_exempt
+def mpesa_callback(request):
+    if request.method == "POST":
+        try:
+            mpesa_response = json.loads(request.body)
+            print("M-Pesa Callback Response:", mpesa_response)  # Debugging
+
+            # Handle response logic (e.g., save transaction details to the database)
+            
+            return JsonResponse({"message": "Callback received successfully"}, status=200)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON format"}, status=400)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
