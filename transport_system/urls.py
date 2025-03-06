@@ -25,4 +25,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('manager/', include('manager.urls')),
     path('accounts/', include('allauth.urls')),
+    
 ]
