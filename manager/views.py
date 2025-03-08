@@ -260,7 +260,6 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Load environment variables from .env
 
-# Get credentials from .env
 MPESA_CONSUMER_KEY = os.getenv('MPESA_CONSUMER_KEY')
 MPESA_CONSUMER_SECRET = os.getenv('MPESA_CONSUMER_SECRET')
 MPESA_SHORTCODE = os.getenv('MPESA_SHORTCODE')
@@ -269,33 +268,55 @@ MPESA_CALLBACK_URL = os.getenv('MPESA_CALLBACK_URL')
 
 
 
-
-
-from django.http import HttpResponse
 import requests
-from requests.auth import HTTPBasicAuth
 import json
+import base64
+from datetime import datetime
+from django.http import JsonResponse
+from django.shortcuts import render
 
+# Replace these with your actual credentials
+MPESA_CONSUMER_KEY = "YOUR_CONSUMER_KEY"
+MPESA_CONSUMER_SECRET = "YOUR_CONSUMER_SECRET"
+MPESA_SHORTCODE = "YOUR_SHORTCODE"
+MPESA_PASSKEY = "YOUR_PASSKEY"
+MPESA_CALLBACK_URL = "YOUR_CALLBACK_URL"
+
+# Change this to `sandbox.safaricom.co.ke` if testing
+MPESA_ENVIRONMENT = "api.safaricom.co.ke"
 
 def get_mpesa_access_token():
-    api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
-    response = requests.get(api_URL, auth=HTTPBasicAuth(MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET))
+    url = "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
     
-    # Print the response content for debugging
-    print("Response content:", response.content)
-    
+    # Encode Consumer Key and Secret
+    credentials = f"{MPESA_CONSUMER_KEY}:{MPESA_CONSUMER_SECRET}"
+    encoded_credentials = base64.b64encode(credentials.encode()).decode()
+
+    headers = {
+        "Authorization": f"Basic {encoded_credentials}",
+    }
+
     try:
-        token_data = response.json()
-    except json.JSONDecodeError as e:
-        print("JSONDecodeError:", e)
-        return None
-    
-    return token_data.get("access_token")
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+        access_token = response.json().get("access_token", None)
+        if access_token:
+            return access_token
+        else:
+            raise Exception("Failed to retrieve access token: No token received.")
+    except requests.exceptions.HTTPError as http_err:
+        raise Exception(f"HTTP error occurred: {http_err}")
+    except Exception as err:
+        raise Exception(f"Other error occurred: {err}")
+
 
 def stk_push_payment(request):
     if request.method == "POST":
         phone_number = request.POST.get("phone_number")  # Get phone number from form
         amount = request.POST.get("amount")  # Get amount from form
+
+        if not phone_number or not amount:
+            return JsonResponse({"error": "Phone number and amount are required"}, status=400)
 
         # Validate and format the phone number
         if phone_number.startswith("0"):
@@ -306,27 +327,30 @@ def stk_push_payment(request):
         if not phone_number.startswith("254"):
             return JsonResponse({"error": "Invalid phone number format"}, status=400)
 
-        access_token = get_mpesa_access_token()
-        if not access_token:
-            return JsonResponse({"error": "Failed to retrieve access token"}, status=500)
+        try:
+            access_token = get_mpesa_access_token()
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
+        print("Access Token:", access_token)
+
+        # Generate timestamp and password
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         data_to_encode = MPESA_SHORTCODE + MPESA_PASSKEY + timestamp
         password = base64.b64encode(data_to_encode.encode()).decode('utf-8')
 
-        stk_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-        
+        stk_url = f"https://{MPESA_ENVIRONMENT}/mpesa/stkpush/v1/processrequest"
+
         headers = {
             "Authorization": f"Bearer {access_token}",
             "Content-Type": "application/json"
         }
 
         payload = {
-            "env": "sandbox",
             "BusinessShortCode": MPESA_SHORTCODE,
             "Password": password,
             "Timestamp": timestamp,
-            "TransactionType": "CustomerPayBillOnline",
+            "TransactionType": "CustomerBuyGoodsOnline",  # Use the correct type
             "Amount": int(amount),
             "PartyA": phone_number,
             "PartyB": MPESA_SHORTCODE,
@@ -337,17 +361,17 @@ def stk_push_payment(request):
         }
 
         response = requests.post(stk_url, json=payload, headers=headers)
-        
-        # Print the response content for debugging
-        print("STK Push Response content:", response.content)
-        
+
+        # Print debug information
+        print("STK Push Response Status:", response.status_code)
+        print("STK Push Response Content:", response.text)
+
         try:
-            return JsonResponse(response.json())  # Return response to frontend
-        except json.JSONDecodeError as e:
-            print("JSONDecodeError:", e)
+            return JsonResponse(response.json())
+        except json.JSONDecodeError:
             return JsonResponse({"error": "Failed to process STK Push request"}, status=500)
 
-    return render(request, "stk_push.html")  # Render form if GET request
+    return render(request, "stk_push.html")
 
 
 
