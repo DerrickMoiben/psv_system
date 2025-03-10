@@ -2,21 +2,217 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cashier Signup</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e6f7ff; /* Light blue background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #007acc; /* Blue navbar */
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            top: 0;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #005299;
+        }
+
+        .signup-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            width: 80%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        .form-section {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .image-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+        }
+
+        .image-section img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 0 8px 8px 0; /* Rounded corners on the right */
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007acc; /* Blue button */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #005299;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+
+        .alert-danger {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+
+        .signup-email {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .signup-email a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        /* Smaller screens */
+        @media (max-width: 600px) {
+            .signup-container {
+                flex-direction: column;
+                width: 95%;
+            }
+
+            .image-section {
+                display: none; /* Hide image on smaller screens */
+            }
+
+            .form-section {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Cashier Signup</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign Up</button>
-    </form>
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#"><i class="fa fa-home"></i> Back to Home</a>
+    </div>
+
+    <div class="signup-container">
+        <div class="form-section">
+            <h2>Cashier Signup</h2>
+            <form id="signupForm" method="post">
+                {% csrf_token %}
+                <label for="username"><i class="fa fa-user"></i> Username:</label>
+                <input type="text" name="username" id="username" required>
+
+                <label for="password"><i class="fa fa-lock"></i> Password:</label>
+                <input type="password" name="password" id="password" required>
+
+                <label for="confirm_password"><i class="fa fa-lock"></i> Confirm Password:</label>
+                <input type="password" name="confirm_password" id="confirm_password" required>
+
+                <label for="first_name"><i class="fa fa-address-card"></i> First Name:</label>
+                <input type="text" name="first_name" id="first_name" required>
+
+                <label for="last_name"><i class="fa fa-address-card"></i> Last Name:</label>
+                <input type="text" name="last_name" id="last_name" required>
+
+                <label for="email"><i class="fa fa-envelope"></i> Email:</label>
+                <input type="email" name="email" id="email" required>
+
+                <label for="phone"><i class="fa fa-phone"></i> Phone:</label>
+                <input type="text" name="phone" id="phone">
+
+                <button type="submit">Sign Up</button>
+            </form>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="signup-email fade-in">
+                <p>Already have an account? <a href="#">Login</a></p>
+                <a href="#">Sign up using Email</a>
             </div>
-        {% endfor %}
-    {% endif %}
+        </div>
+        <div class="image-section">
+            <img src="/cashier/static/images/signgupcar.jpg" alt="Cashier Image">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            // Clear form inputs after submission
+            event.target.reset();
+        });
+    </script>
 </body>
 </html>
