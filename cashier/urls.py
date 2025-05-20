@@ -15,4 +15,5 @@ urlpatterns = [
     path('all_tickets/', views.all_tickets, name='all_tickets'),
     path('select_route/', views.select_route, name='select_route'),
     path('select_car/', views.select_car, name='select_car'),
+    path('mpesa_callback/', views.mpesa_callback, name='mpesa_callback'),
 ]

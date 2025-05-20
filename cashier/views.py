@@ -6,7 +6,8 @@ from .forms import CashierSignupForm, TicketForm, RouteSelectionForm, Carselecti
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseForbidden
 from .models import Route, Ticket
-
+import json
+from django.http import JsonResponse
 
 # Create your views here.\
 
@@ -179,3 +180,16 @@ def all_tickets(request):
     tickets = Ticket.objects.all()
     return render(request, 'all_tickets.html', {'tickets': tickets})
     
+from django.http import JsonResponse, HttpResponseBadRequest
+import json
+
+def mpesa_callback(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            print("MPESA Callback Data:", data)
+            return JsonResponse({"status": "success"}, status=200)
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest("Invalid JSON")
+    else:
+        return HttpResponseBadRequest("Invalid request method")

@@ -7,6 +7,7 @@ class Ticket(models.Model):
         ('Cash', 'Cash'),
         ('Mpesa', 'Mpesa'),
     ]
+    ticket_id = models.CharField(max_length=100, unique=True, editable=True, default='T1905251')
     name = models.CharField(max_length=100, default='name')
     phone_number = models.CharField(max_length=100, default='0')
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='tickets')

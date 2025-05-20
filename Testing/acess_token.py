@@ -67,8 +67,8 @@ def sendStkPush():
         "Password": stk_password,
         "Timestamp": timestamp,
         "TransactionType": "CustomerBuyGoodsOnline", #till "CustomerBuyGoodsOnline"
-        "Amount": "10",
-        "PartyA": "254721170527",
+        "Amount": "1",
+        "PartyA": "254768304385",
         "PartyB": shortCode,
         "PhoneNumber": "254721170527",
         "CallBackURL": callback,
